@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_common/get_reset.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:my_chat_app/utils/colors.dart';
 import 'package:my_chat_app/utils/helper/auth_helper.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,7 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             const Text(
               "Login",
-              style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold,color: Colors.green),
+              style: TextStyle(
+                  fontSize: 35, fontWeight: FontWeight.bold, color: green),
             ),
             const SizedBox(
               height: 30,
@@ -57,19 +59,37 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             ElevatedButton(
               onPressed: () async {
-                String mag = await AuthHelper.helper.signInEmailWithPassword(txtEmail.text, txtPassword.text);
-                if(mag=="Success")
-                  {
-                    Get.offAndToNamed('/home');
-                    Get.snackbar("Successful", "My ChatApp");
-                  }
-                else
-                  {
-                    Get.snackbar(mag, "My ChatApp");
-                  }
+                String mag = await AuthHelper.helper
+                    .signInEmailWithPassword(txtEmail.text, txtPassword.text);
+                if (mag == "Success") {
+                  Get.offAndToNamed('/home');
+                  Get.snackbar("Successful", "My ChatApp");
+                } else {
+                  Get.snackbar(mag, "My ChatApp");
+                }
               },
               child: const Text(
                 "Login",
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              onTap: () async {
+                String mag = await AuthHelper.helper.signGoolgeWithEmailAndPassword();
+                if (mag == "Success") {
+                  Get.offAndToNamed('/home');
+                  Get.snackbar("Successful", "My ChatApp");
+                } else {
+                  Get.snackbar(mag, "My ChatApp");
+                }
+              },
+              child: const Card(
+                child: Image(
+                  image: AssetImage("assets/image/google.png"),
+                  width: 200,
+                ),
               ),
             ),
             const SizedBox(

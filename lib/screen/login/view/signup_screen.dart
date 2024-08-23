@@ -59,8 +59,7 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             ElevatedButton(
               onPressed: () async {
-                String mag = await AuthHelper.helper
-                    .signUpEmailWithPassword(txtEmail.text, txtPassword.text);
+                String mag = await AuthHelper.helper.signUpEmailWithPassword(txtEmail.text, txtPassword.text);
                 if (mag == "Success") {
                   Get.snackbar("Successful", "My ChatApp");
 
