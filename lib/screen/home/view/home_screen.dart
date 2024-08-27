@@ -19,21 +19,38 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("ChatApp"),
       ),
       drawer: Drawer(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const Text("SigningLogout"),
-                IconButton(
-                  onPressed: () {
-                    AuthHelper.helper.logOut();
-                    Get.toNamed("/login");
-                  },
-                  icon: const Icon(Icons.logout),
-                ),
-              ],
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("SigningLogout"),
+                  IconButton(
+                    onPressed: () {
+                      AuthHelper.helper.logOut();
+                      Get.toNamed("/login");
+                    },
+                    icon: const Icon(Icons.logout),
+                  ),
+
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Profile"),
+                  IconButton(
+                    onPressed: () {
+                      Get.toNamed("/profile");
+                    },
+                    icon: const Icon(Icons.person_rounded),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
