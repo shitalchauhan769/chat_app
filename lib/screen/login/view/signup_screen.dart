@@ -66,6 +66,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 } else {
                   Get.snackbar(mag, "My ChatApp");
                 }
+
               },
               child: const Text(
                 "Signup",
@@ -76,6 +77,7 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             TextButton(
               onPressed: () {
+
                 Get.back();
               },
               child: const Text("already have an account? Loin"),

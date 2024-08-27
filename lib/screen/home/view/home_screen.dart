@@ -34,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     icon: const Icon(Icons.logout),
                   ),
-
                 ],
               ),
               Row(
@@ -52,6 +51,26 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
+      ),
+      body: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return Container(
+            height: 90,
+            margin: EdgeInsets.all(5),
+            width: MediaQuery.sizeOf(context).width,
+            decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: ListTile(
+                title: Text("Name"),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

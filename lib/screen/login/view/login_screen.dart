@@ -25,12 +25,13 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "Login",
+              "Create Account",
               style: TextStyle(
                   fontSize: 35, fontWeight: FontWeight.bold, color: green),
             ),
+            const Text("Login",style: TextStyle(fontSize: 18,),),
             const SizedBox(
-              height: 30,
+              height: 25,
             ),
             TextFormField(
               controller: txtEmail,

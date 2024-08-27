@@ -91,6 +91,7 @@ class _ProflieScreenState extends State<ProflieScreen> {
                         bio: txtBio.text),
                   );
                   Get.toNamed("/home");
+                  Get.snackbar("profile", "profile Success");
                 },
                 child: const Text("Submit"),
               ),

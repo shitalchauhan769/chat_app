@@ -11,8 +11,7 @@ class AuthHelper {
 
   Future<String> signUpEmailWithPassword(String email, String password) async {
     try {
-      await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      await auth.createUserWithEmailAndPassword(email: email, password: password);
       return "Success";
     } on FirebaseAuthException catch (e) {
       return e.message ?? "Failed";
