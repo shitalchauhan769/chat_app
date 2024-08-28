@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_common/get_reset.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:my_chat_app/utils/helper/auth_helper.dart';
 
@@ -53,22 +52,24 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: ListView.builder(
-        itemCount: 10,
+        itemCount: 1,
         itemBuilder: (context, index) {
-          return Container(
-            height: 90,
-            margin: EdgeInsets.all(5),
-            width: MediaQuery.sizeOf(context).width,
-            decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(10),
+          return  ListTile(
+              // leading:Container(
+              //   decoration: const BoxDecoration(
+              //       shape: BoxShape.circle,
+              //       color: Colors.grey
+              //   ),
+              // ),
+            title: const Text("Name"),
+            subtitle: const Text("hii"),
+            trailing: const Column(
+              children: [
+                // Text("day"),
+                Text("time"),
+              ],
             ),
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: ListTile(
-                title: Text("Name"),
-              ),
-            ),
+
           );
         },
       ),

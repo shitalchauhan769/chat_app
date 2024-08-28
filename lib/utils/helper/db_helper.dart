@@ -7,14 +7,29 @@ class FireBaseDbHelper {
 
   FireBaseDbHelper._();
 
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
-  void setProfile(ProfileModel profileModel) {
-    firestore.collection("chat").doc(AuthHelper.helper.user!.uid).set({
+ Future <void> setProfile(ProfileModel profileModel) async {
+   await fireStore.collection("Chat").doc(AuthHelper.helper.user!.uid).set({
       "name": profileModel.name,
       "email": profileModel.email,
       "mobile": profileModel.mobile,
       "bio": profileModel.bio
     });
+  }
+
+  Future<ProfileModel ?> grtSingInProfile()
+  async {
+   DocumentSnapshot docData   =await fireStore.collection("Chat").doc(AuthHelper.helper.user!.uid).get();
+   if(docData.exists)
+     {
+       Map m1 = docData.data() as Map;
+       ProfileModel model =ProfileModel.mapToModel(m1);
+       return model;
+     }
+   else
+     {
+       return null;
+     }
   }
 }

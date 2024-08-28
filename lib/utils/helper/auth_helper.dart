@@ -30,6 +30,7 @@ class AuthHelper {
   bool chaekUser() {
     user = auth.currentUser;
     return user != null;
+
   }
 
   Future<void> logOut() async {

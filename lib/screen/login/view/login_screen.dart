@@ -29,7 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyle(
                   fontSize: 35, fontWeight: FontWeight.bold, color: green),
             ),
-            const Text("Login",style: TextStyle(fontSize: 18,),),
+            const Text(
+              "Login",
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
             const SizedBox(
               height: 25,
             ),
@@ -63,8 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 String mag = await AuthHelper.helper
                     .signInEmailWithPassword(txtEmail.text, txtPassword.text);
                 if (mag == "Success") {
-                  Get.offAndToNamed('/home');
-                  Get.snackbar("Successful", "My ChatApp");
+                  AuthHelper.helper.chaekUser();
+                  Get.offAndToNamed('/profile');
                 } else {
                   Get.snackbar(mag, "My ChatApp");
                 }
@@ -78,9 +83,11 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             InkWell(
               onTap: () async {
-                String mag = await AuthHelper.helper.signGoolgeWithEmailAndPassword();
+                String mag =
+                    await AuthHelper.helper.signGoolgeWithEmailAndPassword();
                 if (mag == "Success") {
-                  Get.offAndToNamed('/home');
+                  AuthHelper.helper.chaekUser();
+                  Get.offAndToNamed('/profile');
                   Get.snackbar("Successful", "My ChatApp");
                 } else {
                   Get.snackbar(mag, "My ChatApp");
