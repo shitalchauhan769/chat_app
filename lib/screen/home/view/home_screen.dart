@@ -51,27 +51,32 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: 1,
-        itemBuilder: (context, index) {
-          return  ListTile(
-              // leading:Container(
-              //   decoration: const BoxDecoration(
-              //       shape: BoxShape.circle,
-              //       color: Colors.grey
-              //   ),
-              // ),
-            title: const Text("Name"),
-            subtitle: const Text("hii"),
-            trailing: const Column(
-              children: [
-                // Text("day"),
-                Text("time"),
-              ],
-            ),
-
-          );
+      // body: ListView.builder(
+      //   itemCount: 1,
+      //   itemBuilder: (context, index) {
+      //     return ListTile(
+      //       // leading:Container(
+      //       //   decoration: const BoxDecoration(
+      //       //       shape: BoxShape.circle,
+      //       //       color: Colors.grey
+      //       //   ),
+      //       // ),
+      //       title: const Text("Name"),
+      //       subtitle: const Text("hii"),
+      //       trailing: const Column(
+      //         children: [
+      //           // Text("day"),
+      //           Text("time"),
+      //         ],
+      //       ),
+      //     );
+      //   },
+      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.toNamed("/user");
         },
+        child: const Icon(Icons.person),
       ),
     );
   }
