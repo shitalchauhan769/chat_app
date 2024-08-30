@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_chat_app/screen/chat/view/chat_screen.dart';
 import 'package:my_chat_app/screen/home/view/home_screen.dart';
 import 'package:my_chat_app/screen/login/view/login_screen.dart';
 import 'package:my_chat_app/screen/login/view/signup_screen.dart';
@@ -14,5 +15,6 @@ Map<String,WidgetBuilder>appRoutes={
   '/home':(c1)=>const HomeScreen(),
   '/profile':(c1)=> const ProflieScreen(),
   '/user':(c1)=> const AllUserScreen(),
+  '/chat':(c1)=> const ChatScreen(),
 
 };

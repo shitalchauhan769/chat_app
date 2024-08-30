@@ -19,34 +19,40 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: Drawer(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text("SigningLogout"),
-                  IconButton(
-                    onPressed: () {
-                      AuthHelper.helper.logOut();
-                      Get.toNamed("/login");
-                    },
-                    icon: const Icon(Icons.logout),
-                  ),
-                ],
+              const SizedBox(height: 200,),
+              InkWell(
+                onTap: () {
+                  Get.toNamed("/profile");
+                },
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Profile",style: TextStyle(fontSize: 15),),
+                    Icon(Icons.person_rounded,),
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text("Profile"),
-                  IconButton(
-                    onPressed: () {
-                      Get.toNamed("/profile");
-                    },
-                    icon: const Icon(Icons.person_rounded),
-                  ),
-                ],
-              )
+              const Spacer(),
+              InkWell(
+                onTap: () {
+                  AuthHelper.helper.logOut();
+                  Get.toNamed("/login");
+                },
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("SigningLogout",style: TextStyle(fontSize: 15),),
+                    Icon(Icons.logout),
+                  ],
+                ),
+              ),
+
+
             ],
           ),
         ),

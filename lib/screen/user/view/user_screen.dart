@@ -28,6 +28,9 @@ class _AllUserScreenState extends State<AllUserScreen> {
           itemCount: controller.profileList.length,
           itemBuilder: (context, index) {
             return  ListTile(
+              onTap: () {
+                Get.toNamed("/chat",arguments: controller.profileList[index]);
+              },
               leading: CircleAvatar(
                 backgroundColor: green,
                 child: Text(controller.profileList[index].name![0]),
