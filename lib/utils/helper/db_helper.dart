@@ -51,42 +51,61 @@ class FireBaseDbHelper {
     return profileList;
   }
 
-  Future<void> sendMessege(
-      String senderUid, String receiverUid, ChatModel model) async {
-    DocumentReference reference = await fireStore.collection("Chat").add({
-      "uids": [senderUid, receiverUid]
-    });
-    await fireStore.collection("Chat").doc(reference.id).collection("msg").add({
+  Future<void> sendMessege(String senderUid, String receiverUid, ChatModel model) async {
+
+
+    String? id= await checkChatConversationDoc(senderUid, receiverUid);
+    if(id==null)
+      {
+        DocumentReference reference = await fireStore.collection("Chat").add({"uids": [senderUid, receiverUid]});
+         id =reference .id;
+      }
+
+    await fireStore.collection("Chat").doc(id).collection("msg").add({
       "msg": model.meg,
       "date": model.dateTime,
       "sendUid": model.senderUid,
     });
+
   }
 
-  Future<void> checkChatConversationDoc(
-      String senderUID, String receiverUID) async {
-    QuerySnapshot snapshot = await fireStore
-        .collection("Chat")
-        .where("uids", arrayContainsAny: [senderUID, receiverUID]).get();
-    List<DocumentSnapshot> l1 = snapshot.docs;
-
+  Future<String? > checkChatConversationDoc(String senderUID, String receiverUID) async {
+    QuerySnapshot snapshot = await fireStore.collection("Chat").where("uids", isEqualTo: [senderUID, receiverUID]).get();List<DocumentSnapshot> l1 = snapshot.docs;
     if (l1.isEmpty) {
       QuerySnapshot snapshot = await fireStore
           .collection("Chat")
-          .where("uids", arrayContainsAny: [receiverUID, senderUID]).get();
+          .where("uids", isEqualTo: [receiverUID, senderUID]).get();
       List<DocumentSnapshot> l2= snapshot.docs;
+
       if(l2.isEmpty)
         {
-          print("not any Conversation===================");
+          DocumentReference reference = await fireStore.collection("Chat").add({"uids": [senderUID, receiverUID]});
+          return reference.id;
         }
       else
         {
-          print("yes  Conversation===================${l1.length}");
+          DocumentSnapshot sp=l2[0];
+          return sp.id;
         }
-    }
-    else
+
+    } else {DocumentSnapshot snapshot =l1[0];return snapshot.id;}
+  }
+
+
+
+  Future<void> readCha( String senderID, String receiverID) async {
+    List<ChatModel> dataList=[];
+    String? id = await checkChatConversationDoc(senderID, receiverID);
+    if(id==null)
     {
-      print("yes  Conversation===================${l1.length}");
+      QuerySnapshot snapshot= await fireStore.collection("Chat").doc(id).collection("meg").get();
+       List<DocumentSnapshot> chatList = snapshot.docs;
+       for(var x in chatList)
+         {
+           Map m1 =x.data()as Map;
+           ChatModel model=  ChatModel.mapToModel(m1);
+           dataList.add(model);
+         }
     }
   }
 }
