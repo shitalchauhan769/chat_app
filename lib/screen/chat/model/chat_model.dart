@@ -3,13 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatModel
 {
-  String? meg,senderUid;
+  String? msg,senderUid;
   Timestamp? dateTime;
   String? docId;
 
-  ChatModel({this.meg, this.senderUid, this.dateTime});
+  ChatModel({this.msg, this.senderUid, this.dateTime});
   factory ChatModel.mapToModel(Map m1)
   {
-     return ChatModel(senderUid: m1['senderUid'],meg: m1['meg'],dateTime: m1['date']);
+     return ChatModel(senderUid: m1['senderUid'],msg: m1['msg'],dateTime: m1['date']);
   }
 }

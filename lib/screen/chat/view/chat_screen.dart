@@ -72,9 +72,10 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Text("${model.name}"),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           StreamBuilder(
-            stream: controller.snapData,
+            stream: controller.dataSnap,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Text("${snapshot.hasError}");
@@ -108,7 +109,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
-                                      FireBaseDbHelper.helper.deleteChat(model.uid!);
+                                      FireBaseDbHelper.helper
+                                          .deleteChat(chatList[index].docId!);
                                       Get.back();
                                     },
                                     child: const Text("Delete"),
@@ -133,7 +135,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               color: green,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Text("${chatList[index].meg}"),
+                            child: Text("${chatList[index].msg}"),
                           ),
                         ),
                       );
@@ -146,7 +148,7 @@ class _ChatScreenState extends State<ChatScreen> {
               );
             },
           ),
-          const Spacer(),
+
           Card(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -164,7 +166,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     onPressed: () {
                       ChatModel m1 = ChatModel(
                           dateTime: Timestamp.now(),
-                          meg: txtSend.text,
+                          msg: txtSend.text,
                           senderUid: AuthHelper.helper.user!.uid);
                       FireBaseDbHelper.helper.sendMessege(
                           AuthHelper.helper.user!.uid, model.uid!, m1);

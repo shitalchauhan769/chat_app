@@ -63,7 +63,7 @@ class FireBaseDbHelper {
       }
 
     await fireStore.collection("Chat").doc(id).collection("msg").add({
-      "msg": model.meg,
+      "msg": model.msg,
       "date": model.dateTime,
       "sendUid": model.senderUid,
     });
