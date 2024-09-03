@@ -1,8 +1,11 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ChatModel
 {
   String? meg,senderUid;
-  DateTime? dateTime;
+  Timestamp? dateTime;
+  String? docId;
 
   ChatModel({this.meg, this.senderUid, this.dateTime});
   factory ChatModel.mapToModel(Map m1)

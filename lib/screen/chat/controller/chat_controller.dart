@@ -3,9 +3,9 @@ import 'package:my_chat_app/utils/helper/db_helper.dart';
 
 class ChatController extends GetxController
 {
-
-  void redsData(String senderID, String receiverID)
+  Stream? snapData;
+  void getChatData()
   {
-       FireBaseDbHelper.helper.readChat(senderID, receiverID);
+    snapData = FireBaseDbHelper.helper.readChat();
   }
 }

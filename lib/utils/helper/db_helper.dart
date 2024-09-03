@@ -9,6 +9,7 @@ class FireBaseDbHelper {
   FireBaseDbHelper._();
 
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  String? docId;
 
   Future<void> setProfile(ProfileModel profileModel) async {
     await fireStore.collection("User").doc(AuthHelper.helper.user!.uid).set({
@@ -92,25 +93,19 @@ class FireBaseDbHelper {
 
   }
 
+  Future<void> getDocId(String senderID, String receiverID) async {
+    docId = await checkChatConversationDoc(senderID, receiverID);
+  }
 
 
-  Future<void> readChat( String senderID, String receiverID) async {
-    List<ChatModel> dataList=[];
-    String? id = await checkChatConversationDoc(senderID, receiverID);
 
-    if(id == null)
-    {
-      QuerySnapshot snapshot= await fireStore.collection("Chat").doc(id).collection("meg").get();
-       List<DocumentSnapshot> chatList = snapshot.docs;
-       for(var x in chatList)
+  Stream<QuerySnapshot<Map>>? readChat( )  {
+  Stream <QuerySnapshot<Map>> snapshot =  fireStore.collection("Chat").doc(docId).collection("meg").orderBy("data",descending: false).snapshots();
+  return snapshot;
 
-         {
-
-           Map m1 =x.data()as Map;
-           ChatModel model=  ChatModel.mapToModel(m1);
-           dataList.add(model);
-
-         }
-    }
+  }
+  
+  Future<void> deleteChat(String megId) async {
+     await fireStore.collection("Chat").doc(docId).collection("meg").doc(megId).delete();
   }
 }

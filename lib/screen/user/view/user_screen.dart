@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_chat_app/screen/user/controller/user_controller.dart';
 import 'package:my_chat_app/utils/colors.dart';
+import 'package:my_chat_app/utils/helper/auth_helper.dart';
+import 'package:my_chat_app/utils/helper/db_helper.dart';
 
 class AllUserScreen extends StatefulWidget {
   const AllUserScreen({super.key});
@@ -29,6 +31,7 @@ class _AllUserScreenState extends State<AllUserScreen> {
           itemBuilder: (context, index) {
             return  ListTile(
               onTap: () {
+                FireBaseDbHelper.helper.getDocId(AuthHelper.helper.user!.uid, controller.profileList[index].uid!);
                 Get.toNamed("/chat",arguments: controller.profileList[index]);
               },
               leading: CircleAvatar(

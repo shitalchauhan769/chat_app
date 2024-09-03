@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_chat_app/screen/chat/controller/chat_controller.dart';
@@ -17,11 +18,11 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   ProfileModel model = Get.arguments;
   TextEditingController txtSend = TextEditingController();
-  ChatController controller=Get.put(ChatController());
+  ChatController controller = Get.put(ChatController());
+
   @override
   void initState() {
-    // FireBaseDbHelper.helper.readCha(txtSend.)
-    // controller.redsData(txtSend.text, );
+    controller.getChatData();
     super.initState();
   }
 
@@ -30,16 +31,30 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: () {
-            
-          }, icon: const Icon(Icons.video_call_outlined,size: 35,),),
-          IconButton(onPressed: () {
-
-          }, icon: const Icon(Icons.call,size: 25,),),
-          PopupMenuButton(itemBuilder: (context) => [
-            const PopupMenuItem(child: Text("Group info"),),
-            const PopupMenuItem(child: Text("Setting"),),
-          ],)
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.video_call_outlined,
+              size: 35,
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.call,
+              size: 25,
+            ),
+          ),
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                child: Text("Group info"),
+              ),
+              const PopupMenuItem(
+                child: Text("Setting"),
+              ),
+            ],
+          )
         ],
         leading: Container(
           // padding: const EdgeInsets.all(5),
@@ -47,43 +62,91 @@ class _ChatScreenState extends State<ChatScreen> {
           height: 100,
           width: 100,
           child: CircleAvatar(
-
             backgroundColor: const Color(0xff4bce97),
-            child: Text(model.name![0],style: const TextStyle(fontWeight: FontWeight.bold),),
+            child: Text(
+              model.name![0],
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ),
         title: Text("${model.name}"),
       ),
       body: Column(
         children: [
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 200,
-                  margin: const EdgeInsets.all(5),
-                  height: 60,
-                  alignment: index % 2 == 0
-                      ? Alignment.centerLeft
-                      : Alignment.centerRight,
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    // margin: const EdgeInsets.all(5),
-                    height: 40,
-                    width: MediaQuery.sizeOf(context).width * 0.50,
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      color: green,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    
-                    child: const Text("hello"),
+          StreamBuilder(
+            stream: controller.snapData,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text("${snapshot.hasError}");
+              } else if (snapshot.hasData) {
+                List<ChatModel> chatList = [];
+                QuerySnapshot? snap = snapshot.data;
+                for (var x in snap!.docs) {
+                  Map m1 = x.data() as Map;
+                  ChatModel c1 = ChatModel.mapToModel(m1);
+                  c1.docId = x.id;
+                  chatList.add(c1);
+                }
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: chatList.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: 200,
+                        margin: const EdgeInsets.all(5),
+                        height: 50,
+                        alignment: chatList[index].senderUid !=
+                                AuthHelper.helper.user!.uid
+                            ? Alignment.centerLeft
+                            : Alignment.centerRight,
+                        child: InkWell(
+                          onLongPress: () {
+                            if (chatList[index].senderUid ==
+                                AuthHelper.helper.user!.uid) {
+                              Get.defaultDialog(
+                                title: "you wen to messege",
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      FireBaseDbHelper.helper.deleteChat(model.uid!);
+                                      Get.back();
+                                    },
+                                    child: const Text("Delete"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: const Text("Cancel"),
+                                  ),
+                                ],
+                              );
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            // margin: const EdgeInsets.all(5),
+                            height: 40,
+                            width: MediaQuery.sizeOf(context).width * 0.50,
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                              color: green,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text("${chatList[index].meg}"),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 );
-              },
-              itemCount: 20,
-            ),
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
+          const Spacer(),
           Card(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -94,19 +157,17 @@ class _ChatScreenState extends State<ChatScreen> {
                       controller: txtSend,
                       decoration: const InputDecoration(
                         hintText: " Write Messenger",
-
                       ),
                     ),
                   ),
                   IconButton(
                     onPressed: () {
                       ChatModel m1 = ChatModel(
-                          dateTime: DateTime.now(),
+                          dateTime: Timestamp.now(),
                           meg: txtSend.text,
                           senderUid: AuthHelper.helper.user!.uid);
                       FireBaseDbHelper.helper.sendMessege(
                           AuthHelper.helper.user!.uid, model.uid!, m1);
-                      // FireBaseDbHelper.helper.checkChatConversationDoc(, receiverUID);
                     },
                     icon: const Icon(Icons.send),
                   ),
