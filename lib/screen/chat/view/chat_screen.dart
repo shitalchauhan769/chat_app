@@ -93,13 +93,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     itemCount: chatList.length,
                     itemBuilder: (context, index) {
                       return Container(
-                        width: 200,
                         margin: const EdgeInsets.all(5),
+                        width: 200,
                         height: 50,
-                        alignment: chatList[index].senderUid !=
-                                AuthHelper.helper.user!.uid
-                            ? Alignment.centerLeft
-                            : Alignment.centerRight,
+                        alignment: index%2==0 ? Alignment.centerLeft : Alignment.centerRight,
                         child: InkWell(
                           onLongPress: () {
                             if (chatList[index].senderUid ==
@@ -127,9 +124,9 @@ class _ChatScreenState extends State<ChatScreen> {
                           },
                           child: Container(
                             padding: const EdgeInsets.all(5),
-                            // margin: const EdgeInsets.all(5),
-                            height: 40,
-                            width: MediaQuery.sizeOf(context).width * 0.50,
+                            margin: const EdgeInsets.all(5),
+
+                            width: MediaQuery.sizeOf(context).width * 0.60,
                             alignment: Alignment.centerLeft,
                             decoration: BoxDecoration(
                               color: green,

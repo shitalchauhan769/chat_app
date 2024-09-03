@@ -30,8 +30,8 @@ class _AllUserScreenState extends State<AllUserScreen> {
           itemCount: controller.profileList.length,
           itemBuilder: (context, index) {
             return  ListTile(
-              onTap: () {
-                FireBaseDbHelper.helper.getDocId(AuthHelper.helper.user!.uid, controller.profileList[index].uid!);
+              onTap: () async {
+              await  FireBaseDbHelper.helper.getDocId(AuthHelper.helper.user!.uid, controller.profileList[index].uid!);
                 Get.toNamed("/chat",arguments: controller.profileList[index]);
               },
               leading: CircleAvatar(

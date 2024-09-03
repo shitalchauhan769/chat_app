@@ -100,12 +100,12 @@ class FireBaseDbHelper {
 
 
   Stream<QuerySnapshot<Map>>? readChat( )  {
-  Stream <QuerySnapshot<Map>> snapshot =  fireStore.collection("Chat").doc(docId).collection("meg").orderBy("data",descending: false).snapshots();
+  Stream <QuerySnapshot<Map>> snapshot =  fireStore.collection("Chat").doc(docId).collection("msg").orderBy("date",descending: false).snapshots();
   return snapshot;
 
   }
   
   Future<void> deleteChat(String megId) async {
-     await fireStore.collection("Chat").doc(docId).collection("meg").doc(megId).delete();
+     await fireStore.collection("Chat").doc(docId).collection("msg").doc(megId).delete();
   }
 }
