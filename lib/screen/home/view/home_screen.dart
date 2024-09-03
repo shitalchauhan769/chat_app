@@ -15,7 +15,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("ChatApp"),
+        actions: [
+          IconButton(onPressed: () {
+
+          }, icon: const Icon(Icons.document_scanner_outlined),),
+          IconButton(onPressed: () {
+
+          }, icon: const Icon(Icons.photo_camera),),
+          PopupMenuButton(itemBuilder: (context) => [
+            const PopupMenuItem(child: Text(" New group"),),
+            const PopupMenuItem(child: Text(""),),
+          ],)
+        ],
+        title: const Text("WhatsApp"),
       ),
       drawer: Drawer(
         child: Padding(

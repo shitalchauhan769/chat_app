@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_chat_app/screen/chat/controller/chat_controller.dart';
 import 'package:my_chat_app/screen/chat/model/chat_model.dart';
 import 'package:my_chat_app/screen/profile/model/proflie_model.dart';
 import 'package:my_chat_app/utils/colors.dart';
@@ -16,8 +17,11 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   ProfileModel model = Get.arguments;
   TextEditingController txtSend = TextEditingController();
+  ChatController controller=Get.put(ChatController());
   @override
   void initState() {
+    // FireBaseDbHelper.helper.readCha(txtSend.)
+    // controller.redsData(txtSend.text, );
     super.initState();
   }
 
@@ -25,13 +29,27 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(onPressed: () {
+            
+          }, icon: const Icon(Icons.video_call_outlined,size: 35,),),
+          IconButton(onPressed: () {
+
+          }, icon: const Icon(Icons.call,size: 25,),),
+          PopupMenuButton(itemBuilder: (context) => [
+            const PopupMenuItem(child: Text("Group info"),),
+            const PopupMenuItem(child: Text("Setting"),),
+          ],)
+        ],
         leading: Container(
           // padding: const EdgeInsets.all(5),
           margin: const EdgeInsets.all(7),
           height: 100,
           width: 100,
           child: CircleAvatar(
-            child: Text(model.name![0]),
+
+            backgroundColor: const Color(0xff4bce97),
+            child: Text(model.name![0],style: const TextStyle(fontWeight: FontWeight.bold),),
           ),
         ),
         title: Text("${model.name}"),
@@ -50,7 +68,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       : Alignment.centerRight,
                   child: Container(
                     padding: const EdgeInsets.all(5),
-                    margin: const EdgeInsets.all(5),
+                    // margin: const EdgeInsets.all(5),
                     height: 40,
                     width: MediaQuery.sizeOf(context).width * 0.50,
                     alignment: Alignment.centerLeft,
@@ -76,6 +94,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       controller: txtSend,
                       decoration: const InputDecoration(
                         hintText: " Write Messenger",
+
                       ),
                     ),
                   ),

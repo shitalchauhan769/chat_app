@@ -81,30 +81,35 @@ class FireBaseDbHelper {
         {
           DocumentReference reference = await fireStore.collection("Chat").add({"uids": [senderUID, receiverUID]});
           return reference.id;
-        }
-      else
-        {
+        } else {
           DocumentSnapshot sp=l2[0];
           return sp.id;
         }
 
-    } else {DocumentSnapshot snapshot =l1[0];return snapshot.id;}
+    } else {
+      DocumentSnapshot snapshot =l1[0];
+      return snapshot.id;}
+
   }
 
 
 
-  Future<void> readCha( String senderID, String receiverID) async {
+  Future<void> readChat( String senderID, String receiverID) async {
     List<ChatModel> dataList=[];
     String? id = await checkChatConversationDoc(senderID, receiverID);
-    if(id==null)
+
+    if(id == null)
     {
       QuerySnapshot snapshot= await fireStore.collection("Chat").doc(id).collection("meg").get();
        List<DocumentSnapshot> chatList = snapshot.docs;
        for(var x in chatList)
+
          {
+
            Map m1 =x.data()as Map;
            ChatModel model=  ChatModel.mapToModel(m1);
            dataList.add(model);
+
          }
     }
   }
