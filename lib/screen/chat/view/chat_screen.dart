@@ -96,17 +96,20 @@ class _ChatScreenState extends State<ChatScreen> {
                         margin: const EdgeInsets.all(5),
                         width: 200,
                         height: 50,
-                        alignment: index%2==0 ? Alignment.centerLeft : Alignment.centerRight,
+                        alignment: chatList[index].senderUid !=
+                                AuthHelper.helper.user!.uid
+                            ? Alignment.centerLeft
+                            : Alignment.centerRight,
                         child: InkWell(
                           onLongPress: () {
                             if (chatList[index].senderUid ==
                                 AuthHelper.helper.user!.uid) {
                               Get.defaultDialog(
-                                title: "you wen to messege",
+                                title: "you went to delete messege",
                                 actions: [
                                   TextButton(
-                                    onPressed: () {
-                                      FireBaseDbHelper.helper
+                                    onPressed: () async {
+                                      await FireBaseDbHelper.helper
                                           .deleteChat(chatList[index].docId!);
                                       Get.back();
                                     },
@@ -123,10 +126,9 @@ class _ChatScreenState extends State<ChatScreen> {
                             }
                           },
                           child: Container(
-                            padding: const EdgeInsets.all(5),
+                            width: MediaQuery.sizeOf(context).width * 0.50,
                             margin: const EdgeInsets.all(5),
-
-                            width: MediaQuery.sizeOf(context).width * 0.60,
+                            padding: const EdgeInsets.all(5),
                             alignment: Alignment.centerLeft,
                             decoration: BoxDecoration(
                               color: green,
@@ -145,8 +147,8 @@ class _ChatScreenState extends State<ChatScreen> {
               );
             },
           ),
-
           Card(
+            margin: const EdgeInsets.all(5),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
