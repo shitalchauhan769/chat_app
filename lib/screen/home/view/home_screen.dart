@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:my_chat_app/screen/home/controller/home_controller.dart';
+import 'package:my_chat_app/screen/profile/model/proflie_model.dart';
 import 'package:my_chat_app/utils/helper/auth_helper.dart';
+
+import '../../../utils/colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,21 +16,49 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  HomeController homeController = Get.put(HomeController());
+
+  @override
+  void initState() {
+    homeController.getUser();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: () {
-
-          }, icon: const Icon(Icons.document_scanner_outlined),),
-          IconButton(onPressed: () {
-
-          }, icon: const Icon(Icons.photo_camera),),
-          PopupMenuButton(itemBuilder: (context) => [
-            const PopupMenuItem(child: Text(" New group"),),
-            const PopupMenuItem(child: Text(""),),
-          ],)
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.document_scanner_outlined),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.photo_camera),
+          ),
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                child: Text(" New group"),
+              ),
+              const PopupMenuItem(
+                child: Text("New broadcast"),
+              ),
+              const PopupMenuItem(
+                child: Text("Linked devices"),
+              ),
+              const PopupMenuItem(
+                child: Text("Starred messages"),
+              ),
+              const PopupMenuItem(
+                child: Text("Payments"),
+              ),
+              const PopupMenuItem(
+                child: Text("Setting"),
+              ),
+            ],
+          )
         ],
         title: const Text("WhatsApp"),
       ),
@@ -34,9 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-
             children: [
-              const SizedBox(height: 200,),
+              const SizedBox(
+                height: 200,
+              ),
               InkWell(
                 onTap: () {
                   Get.toNamed("/profile");
@@ -44,8 +78,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Profile",style: TextStyle(fontSize: 15),),
-                    Icon(Icons.person_rounded,),
+                    Text(
+                      "Profile",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Icon(
+                      Icons.person_rounded,
+                    ),
                   ],
                 ),
               ),
@@ -58,38 +97,66 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("SigningLogout",style: TextStyle(fontSize: 15),),
+                    Text(
+                      "SigningLogout",
+                      style: TextStyle(fontSize: 15),
+                    ),
                     Icon(Icons.logout),
                   ],
                 ),
               ),
-
-
             ],
           ),
         ),
       ),
-      // body: ListView.builder(
-      //   itemCount: 1,
-      //   itemBuilder: (context, index) {
-      //     return ListTile(
-      //       // leading:Container(
-      //       //   decoration: const BoxDecoration(
-      //       //       shape: BoxShape.circle,
-      //       //       color: Colors.grey
-      //       //   ),
-      //       // ),
-      //       title: const Text("Name"),
-      //       subtitle: const Text("hii"),
-      //       trailing: const Column(
-      //         children: [
-      //           // Text("day"),
-      //           Text("time"),
-      //         ],
-      //       ),
-      //     );
-      //   },
-      // ),
+      body: StreamBuilder(
+        stream: homeController.chatUser,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          } else if (snapshot.hasData) {
+            homeController.userList.clear();
+            QuerySnapshot? sq = snapshot.data;
+            List<QueryDocumentSnapshot> sqList = sq!.docs;
+
+            for (var x in sqList) {
+              Map m1 = x.data() as Map;
+              List uidList = m1["uids"];
+              String receiverID = "";
+              if (uidList[0] == AuthHelper.helper.user!.uid) {
+                receiverID = uidList[1];
+              } else {
+                receiverID = uidList[0];
+              }
+              homeController.getChat(receiverID).then(
+                (value) {
+                  homeController.userList.add(homeController.model!);
+                },
+              );
+            }
+
+            return Obx(
+              () => ListView.builder(
+                itemCount: homeController.userList.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () async {},
+                    leading: CircleAvatar(
+                      backgroundColor: green,
+                      child: Text(homeController.userList[index].name![0]),
+                    ),
+                    title: Text("${homeController.userList[index].name}"),
+                    subtitle: Text("${homeController.userList[index].mobile}"),
+                  );
+                },
+              ),
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.toNamed("/user");

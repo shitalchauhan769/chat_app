@@ -121,4 +121,15 @@ class FireBaseDbHelper {
         .doc(megId)
         .delete();
   }
+  Stream<QuerySnapshot<Map<String, dynamic>>> getMyChat() {
+   return fireStore.collection("Chat").where("uids",arrayContains: AuthHelper.helper.user!.uid).snapshots();
+  }
+
+  Future<ProfileModel> userChat(String receiverID) async {
+   DocumentSnapshot snapshot = await fireStore.collection("User").doc(receiverID).get();
+   Map m1=snapshot.data()as Map;
+   ProfileModel userChatList=ProfileModel.mapToModel(m1);
+
+   return userChatList;
+  }
 }
