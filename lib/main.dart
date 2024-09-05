@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_chat_app/utils/app_routes.dart';
 import 'package:my_chat_app/utils/colors.dart';
+import 'package:my_chat_app/utils/services/notification_services.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 import 'firebase_options.dart';
 
@@ -11,6 +14,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  NotificationMsg.notificationMsg.initNotification();
+  tz.initializeTimeZones();
   runApp(
     GetMaterialApp(
       theme: ThemeData(
@@ -23,4 +28,3 @@ Future<void> main() async {
     ),
   );
 }
-//https://jsonplaceholder.typicode.com/posts

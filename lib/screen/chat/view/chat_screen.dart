@@ -30,6 +30,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         actions: [
           IconButton(
             onPressed: () {},
@@ -51,24 +52,44 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Text("Group info"),
               ),
               const PopupMenuItem(
-                child: Text("Setting"),
+                child: Text("Group media"),
+              ),
+              const PopupMenuItem(
+                child: Text("Search"),
+              ),
+              const PopupMenuItem(
+                child: Text("Mute Notifications"),
+              ),
+              const PopupMenuItem(
+                child: Text("Disappearing messages"),
+              ),
+              const PopupMenuItem(
+                child: Text("Wallpaper"),
+              ),
+              const PopupMenuItem(
+                child: Text("More"),
               ),
             ],
-          )
-        ],
-        leading: Container(
-          // padding: const EdgeInsets.all(5),
-          margin: const EdgeInsets.all(7),
-          height: 100,
-          width: 100,
-          child: CircleAvatar(
-            backgroundColor: const Color(0xff4bce97),
-            child: Text(
-              model.name![0],
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
           ),
-        ),
+
+        ],
+        // flexibleSpace: IconButton(onPressed: () {
+        //
+        // }, icon: const Icon(Icons.arrow_back)),
+        leading:Container(
+                  // padding: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(7),
+                  height: 100,
+                  width: 100,
+                  child: CircleAvatar(
+                    backgroundColor: const Color(0xff4bce97),
+                    child: Text(
+                      model.name![0],
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+
         title: Text("${model.name}"),
       ),
       body: Column(
