@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_chat_app/utils/app_routes.dart';
 import 'package:my_chat_app/utils/colors.dart';
+import 'package:my_chat_app/utils/helper/fcm_helper.dart';
 import 'package:my_chat_app/utils/services/notification_services.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -16,6 +17,7 @@ Future<void> main() async {
   );
   NotificationMsg.notificationMsg.initNotification();
   tz.initializeTimeZones();
+  FcmHelper.helper.initMsg();
   runApp(
     GetMaterialApp(
       theme: ThemeData(

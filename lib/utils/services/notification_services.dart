@@ -1,14 +1,16 @@
+import 'dart:typed_data';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:http/http.dart' as http;
 
 class NotificationMsg {
   static NotificationMsg notificationMsg = NotificationMsg._();
 
   NotificationMsg._();
 
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   String? timeZone;
 
   void initNotification() {
@@ -40,7 +42,7 @@ class NotificationMsg {
 
   void showScheduleNotification() {
     AndroidNotificationDetails androidNotificationDetails =
-        const AndroidNotificationDetails("3", "Schedule");
+        const AndroidNotificationDetails("2", "Schedule");
     DarwinNotificationDetails darwinNotificationDetails =
         const DarwinNotificationDetails();
     NotificationDetails notificationDetails = NotificationDetails(
@@ -54,8 +56,54 @@ class NotificationMsg {
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
   }
+  
+  
 
-  void showBigNotification() {}
+  Future<Uint8List> getByte(String link) async {
+    var response = await http.get(Uri.parse(link));
+        return response.bodyBytes;
+  }
 
-  void showMediaStyleNotification() {}
+  Future<void> showBigPictureNotification() async {
+
+    String link="https://www.shutterstock.com/image-illustration/realistic-suv-car-isolated-on-600nw-2119863206.jpg";
+    var byte= await getByte(link);
+    ByteArrayAndroidBitmap androidBitmap =ByteArrayAndroidBitmap(byte);
+
+
+  BigPictureStyleInformation bigPictureStyleInformation =BigPictureStyleInformation(androidBitmap);
+
+    AndroidNotificationDetails androidNotificationDetails =
+     AndroidNotificationDetails("3", "BigPicture",styleInformation: bigPictureStyleInformation);
+
+    DarwinNotificationDetails darwinNotificationDetails =
+    const DarwinNotificationDetails();
+    NotificationDetails notificationDetails = NotificationDetails(
+        android: androidNotificationDetails, iOS: darwinNotificationDetails);
+    flutterLocalNotificationsPlugin.zonedSchedule(
+        3,
+        "BigPicture",
+        "BigPicture Notification ",
+        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
+        notificationDetails,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+
+    );
+  }
+  
+  
+  
+
+  void showMediaStyleNotification() {
+
+    AndroidNotificationDetails androidNotificationDetails =
+    const AndroidNotificationDetails("4", "sound",sound: RawResourceAndroidNotificationSound("music"),
+        importance: Importance.max, priority: Priority.high,playSound: true);
+    DarwinNotificationDetails darwinNotificationDetails =
+    const DarwinNotificationDetails();
+    NotificationDetails notificationDetails = NotificationDetails(
+        android: androidNotificationDetails, iOS: darwinNotificationDetails);
+    flutterLocalNotificationsPlugin.show(
+        4, "sound Notification", "sound", notificationDetails);
+  }
 }

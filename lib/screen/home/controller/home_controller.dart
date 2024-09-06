@@ -10,6 +10,7 @@ class HomeController extends GetxController
   RxList<ProfileModel>userList=<ProfileModel>[].obs;
   ProfileModel? model;
 
+
   void getUser() {
     chatUser = FireBaseDbHelper.helper.getMyChat();
   }

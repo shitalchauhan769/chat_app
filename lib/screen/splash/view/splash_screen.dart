@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:my_chat_app/utils/colors.dart';
 import 'package:my_chat_app/utils/helper/auth_helper.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Icon(
               Icons.chat,
-              color: Colors.green,
+              color: green,
               size: 100,
             ),
           ],

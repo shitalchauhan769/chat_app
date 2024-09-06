@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeController homeController = Get.put(HomeController());
-  UserController controller=Get.put(UserController());
+  UserController controller = Get.put(UserController());
 
   @override
   void initState() {
@@ -39,15 +39,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           IconButton(
             onPressed: () {
-              NotificationMsg.notificationMsg.showSimpleNotification();
+              NotificationMsg.notificationMsg.showBigPictureNotification();
             },
-            icon: const Icon(Icons.notifications),
+            icon: const Icon(Icons.image),
           ),
           IconButton(
             onPressed: () {
-              NotificationMsg.notificationMsg.showScheduleNotification();
+              NotificationMsg.notificationMsg.showMediaStyleNotification();
+
             },
-            icon: const Icon(Icons.schedule),
+            icon: const Icon(Icons.music_note),
           ),
           IconButton(
             onPressed: () {},
@@ -72,6 +73,18 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const PopupMenuItem(
                 child: Text("Setting"),
+              ),
+              PopupMenuItem(
+                onTap: () {
+                  NotificationMsg.notificationMsg.showSimpleNotification();
+                },
+                child: const Text("Notification"),
+              ),
+              PopupMenuItem(
+                onTap: () {
+                  NotificationMsg.notificationMsg.showScheduleNotification();
+                },
+                child: const Text("Schedule Notification"),
               ),
             ],
           )
@@ -125,59 +138,61 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body:  StreamBuilder(
-          stream: homeController.chatUser,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            } else if (snapshot.hasData) {
-              homeController.userList.clear();
-              QuerySnapshot? sq = snapshot.data;
-              List<QueryDocumentSnapshot> sqList = sq!.docs;
+      body: StreamBuilder(
+        stream: homeController.chatUser,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          } else if (snapshot.hasData) {
+            homeController.userList.clear();
+            QuerySnapshot? sq = snapshot.data;
+            List<QueryDocumentSnapshot> sqList = sq!.docs;
 
-              for (var x in sqList) {
-                Map m1 = x.data() as Map;
-                List uidList = m1["uids"];
-                String receiverID = "";
-                if (uidList[0] == AuthHelper.helper.user!.uid) {
-                  receiverID = uidList[1];
-                } else {
-                  receiverID = uidList[0];
-                }
-                homeController.getChat(receiverID).then(
-                  (value) {
-
-                    homeController.userList.add(homeController.model!);
-                  },
-                );
+            for (var x in sqList) {
+              Map m1 = x.data() as Map;
+              List uidList = m1["uids"];
+              String receiverID = "";
+              if (uidList[0] == AuthHelper.helper.user!.uid) {
+                receiverID = uidList[1];
+              } else {
+                receiverID = uidList[0];
               }
-
-              return Obx(
-                () =>  ListView.builder(
-                    itemCount: homeController.userList.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        onTap: () async {
-                          await  FireBaseDbHelper.helper.getDocId(AuthHelper.helper.user!.uid, homeController.userList[index].uid!);
-                          Get.toNamed("/chat",arguments: homeController.userList[index]);
-                        },
-                        leading: CircleAvatar(
-                          backgroundColor: green,
-                          child: Text(homeController.userList[index].name![0]),
-                        ),
-                        title: Text("${homeController.userList[index].name}"),
-                        subtitle: Text("${homeController.userList[index].mobile}"),
-                      );
-                    },
-                  ),
+              homeController.getChat(receiverID).then(
+                (value) {
+                  homeController.userList.add(homeController.model!);
+                },
               );
-
             }
-            return const Center(
-              child: CircularProgressIndicator(),
+
+            return Obx(
+              () => ListView.builder(
+                itemCount: homeController.userList.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () async {
+                      await FireBaseDbHelper.helper.getDocId(
+                          AuthHelper.helper.user!.uid,
+                          homeController.userList[index].uid!);
+                      Get.toNamed("/chat",
+                          arguments: homeController.userList[index]);
+                    },
+                    leading: CircleAvatar(
+                      backgroundColor: green,
+                      child: Text(homeController.userList[index].name![0]),
+                    ),
+                    title: Text("${homeController.userList[index].name}"),
+                    subtitle: Text("${homeController.userList[index].mobile}"),
+                    trailing: Text("${""}"),
+                  );
+                },
+              ),
             );
-          },
-        ),
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.toNamed("/user");
