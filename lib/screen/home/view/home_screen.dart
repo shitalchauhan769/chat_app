@@ -38,19 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.document_scanner_outlined),
           ),
           IconButton(
-            onPressed: () {
-              NotificationMsg.notificationMsg.showBigPictureNotification();
-            },
-            icon: const Icon(Icons.image),
-          ),
-          IconButton(
-            onPressed: () {
-              NotificationMsg.notificationMsg.showMediaStyleNotification();
-
-            },
-            icon: const Icon(Icons.music_note),
-          ),
-          IconButton(
             onPressed: () {},
             icon: const Icon(Icons.photo_camera),
           ),
@@ -75,16 +62,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text("Setting"),
               ),
               PopupMenuItem(
+                child: const Text("Light"),
                 onTap: () {
-                  NotificationMsg.notificationMsg.showSimpleNotification();
+                  homeController.setTheme("light");
                 },
-                child: const Text("Notification"),
               ),
               PopupMenuItem(
+                child: const Text("Dark"),
                 onTap: () {
-                  NotificationMsg.notificationMsg.showScheduleNotification();
+                  homeController.setTheme("dark");
                 },
-                child: const Text("Schedule Notification"),
+              ),
+              PopupMenuItem(
+                child: const Text("System"),
+                onTap: () {
+                  homeController.setTheme("system");
+                },
               ),
             ],
           )
@@ -114,6 +107,66 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icon(
                       Icons.person_rounded,
                     ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                onTap: () {
+                  // NotificationMsg.notificationMsg.showSimpleNotification();
+                },
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Simple Notification"),
+                    Icon(Icons.notifications),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                onTap: () {
+                  NotificationMsg.notificationMsg.showScheduleNotification();
+                },
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Schedule Notification"),
+                    Icon(Icons.notifications),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                onTap: () {
+                  // NotificationMsg.notificationMsg.showBigPictureNotification();
+                },
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("BigPicture Notification"),
+                    Icon(Icons.image),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                onTap: () {
+                  NotificationMsg.notificationMsg.showMediaStyleNotification();
+                },
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("sound Notification"),
+                    Icon(Icons.music_note),
                   ],
                 ),
               ),
@@ -193,7 +246,9 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
+
       floatingActionButton: FloatingActionButton(
+        backgroundColor: green,
         onPressed: () {
           Get.toNamed("/user");
         },
@@ -202,3 +257,89 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
+// bottomNavigationBar: BottomNavigationBar(
+//         currentIndex: providerW!.selactedBottom,
+//         items: const [
+//           BottomNavigationBarItem(icon: Icon(Icons.chat), label: "chat"),
+//           BottomNavigationBarItem(
+//               icon: Icon(Icons.contact_phone), label: "status"),
+//           BottomNavigationBarItem(icon: Icon(Icons.call), label: "call"),
+//         ],
+//         onTap: (value) {
+//           providerR!.changBottom(value);
+//         },
+//       ),
+
+//StreamBuilder(
+//         stream: homeController.chatUser,
+//         builder: (context, snapshot) {
+//           if (snapshot.hasError) {
+//             return Text("${snapshot.error}");
+//           } else if (snapshot.hasData) {
+//             homeController.userList.clear();
+//             QuerySnapshot? sq = snapshot.data;
+//             List<QueryDocumentSnapshot> sqList = sq!.docs;
+//
+//             for (var x in sqList) {
+//               Map m1 = x.data() as Map;
+//               List uidList = m1["uids"];
+//               String receiverID = "";
+//               if (uidList[0] == AuthHelper.helper.user!.uid) {
+//                 receiverID = uidList[1];
+//               } else {
+//                 receiverID = uidList[0];
+//               }
+//               homeController.getChat(receiverID).then(
+//                 (value) {
+//                   homeController.userList.add(homeController.model!);
+//                 },
+//               );
+//             }
+//
+//             return Obx(
+//               () => ListView.builder(
+//                 itemCount: homeController.userList.length,
+//                 itemBuilder: (context, index) {
+//                   return ListTile(
+//                     onTap: () async {
+//                       await FireBaseDbHelper.helper.getDocId(
+//                           AuthHelper.helper.user!.uid,
+//                           homeController.userList[index].uid!);
+//                       Get.toNamed("/chat",
+//                           arguments: homeController.userList[index]);
+//                     },
+//                     leading: CircleAvatar(
+//                       backgroundColor: green,
+//                       child: Text(homeController.userList[index].name![0]),
+//                     ),
+//                     title: Text("${homeController.userList[index].name}"),
+//                     subtitle: Text("${homeController.userList[index].mobile}"),
+//                     trailing: Text("${""}"),
+//                   );
+//                 },
+//               ),
+//             );
+//           }
+//           return const Center(
+//             child: CircularProgressIndicator(),
+//           );
+//         },
+//       )
+
+//  // bottomNavigationBar: BottomNavigationBar(
+//       //   currentIndex: homeController.selctedBottom,
+//       //   backgroundColor: Colors.black,
+//       //   items: const [
+//       //     BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chat",),
+//       //     BottomNavigationBarItem(icon: Icon(Icons.update), label: "Updates",),
+//       //     BottomNavigationBarItem(icon: Icon(Icons.comment), label: "Communities",),
+//       //     BottomNavigationBarItem(icon: Icon(Icons.phone), label: "Call",),
+//       //   ],
+//       //   onTap: (value) {
+//       //     homeController.changBottom(value);
+//       //   },
+//       // ),
+
+

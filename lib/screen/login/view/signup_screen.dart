@@ -24,6 +24,14 @@ class _SignupScreenState extends State<SignupScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Icon(
+              Icons.chat,
+              color: green,
+              size: 100,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             const Text(
               "My Chat App",
               style: TextStyle(
@@ -54,6 +62,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 border: OutlineInputBorder(),
               ),
+              validator: (value) {
+
+              },
             ),
             const SizedBox(
               height: 10,

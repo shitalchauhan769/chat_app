@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_chat_app/screen/user/controller/user_controller.dart';
-import 'package:my_chat_app/utils/colors.dart';
-import 'package:my_chat_app/utils/helper/auth_helper.dart';
-import 'package:my_chat_app/utils/helper/db_helper.dart';
+import 'package:get/get_core/src/get_main.dart';
+import '../../../utils/colors.dart';
+import '../../../utils/helper/auth_helper.dart';
+import '../../../utils/helper/db_helper.dart';
+import '../../user/controller/user_controller.dart';
 
-class AllUserScreen extends StatefulWidget {
-  const AllUserScreen({super.key});
+class CallScreen extends StatefulWidget {
+  const CallScreen({super.key});
 
   @override
-  State<AllUserScreen> createState() => _AllUserScreenState();
+  State<CallScreen> createState() => _CallScreenState();
 }
 
-class _AllUserScreenState extends State<AllUserScreen> {
+class _CallScreenState extends State<CallScreen> {
   UserController controller = Get.put(UserController());
 
   @override
@@ -20,13 +21,20 @@ class _AllUserScreenState extends State<AllUserScreen> {
     controller.getUserAll();
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("user"),
         actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.document_scanner_outlined),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.photo_camera),
+          ),
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.search_rounded),
@@ -50,7 +58,7 @@ class _AllUserScreenState extends State<AllUserScreen> {
         ],
       ),
       body: Obx(
-        () => ListView.builder(
+            () => ListView.builder(
           itemCount: controller.profileList.length,
           itemBuilder: (context, index) {
             return ListTile(
@@ -66,6 +74,7 @@ class _AllUserScreenState extends State<AllUserScreen> {
               ),
               title: Text("${controller.profileList[index].name}"),
               subtitle: Text("${controller.profileList[index].mobile}"),
+              trailing: const Icon(Icons.video_call),
             );
           },
         ),

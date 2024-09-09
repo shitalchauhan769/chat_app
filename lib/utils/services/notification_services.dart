@@ -28,7 +28,7 @@ class NotificationMsg {
     );
   }
 
-  void showSimpleNotification() {
+  void showSimpleNotification(String title,String body) {
     AndroidNotificationDetails androidNotificationDetails =
         const AndroidNotificationDetails("1", "simple",
             importance: Importance.max, priority: Priority.high);
@@ -37,7 +37,8 @@ class NotificationMsg {
     NotificationDetails notificationDetails = NotificationDetails(
         android: androidNotificationDetails, iOS: darwinNotificationDetails);
     flutterLocalNotificationsPlugin.show(
-        1, "hello", "Simple", notificationDetails);
+        1, "${title}", "${body}", notificationDetails);
+
   }
 
   void showScheduleNotification() {
@@ -64,9 +65,9 @@ class NotificationMsg {
         return response.bodyBytes;
   }
 
-  Future<void> showBigPictureNotification() async {
+  Future<void> showBigPictureNotification(String title,String body,String image) async {
 
-    String link="https://www.shutterstock.com/image-illustration/realistic-suv-car-isolated-on-600nw-2119863206.jpg";
+    String link="${image}";
     var byte= await getByte(link);
     ByteArrayAndroidBitmap androidBitmap =ByteArrayAndroidBitmap(byte);
 
@@ -82,8 +83,8 @@ class NotificationMsg {
         android: androidNotificationDetails, iOS: darwinNotificationDetails);
     flutterLocalNotificationsPlugin.zonedSchedule(
         3,
-        "BigPicture",
-        "BigPicture Notification ",
+        "${title}",
+        "${body} ",
         tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
         notificationDetails,
         uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,

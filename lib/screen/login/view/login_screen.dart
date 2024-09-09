@@ -24,6 +24,14 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Icon(
+              Icons.chat,
+              color: green,
+              size: 100,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             const Text(
               "Create Account",
               style: TextStyle(

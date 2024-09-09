@@ -183,10 +183,16 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: TextFormField(
-                          controller: txtSend,
-                          decoration: const InputDecoration(
-                            hintText: " Write Messenger",
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(200)
+                          ),
+                          child: TextFormField(
+                            controller: txtSend,
+                            cursorRadius: const Radius.circular(20),
+                            decoration: const InputDecoration(
+                              hintText: " Write Messenger",
+                            ),
                           ),
                         ),
                       ),

@@ -114,14 +114,14 @@ class _ProflieScreenState extends State<ProflieScreen> {
                 height: 10,
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   ProfileModel model= ProfileModel(
                       name: txtName.text,
                       email: txtEmail.text,
                       mobile: txtMobile.text,
                       bio: txtBio.text,
                       uid: AuthHelper.helper.user!.uid);
-                  FireBaseDbHelper.helper.setProfile(model);
+                 await FireBaseDbHelper.helper.setProfile(model);
                   Get.toNamed("/home");
                   Get.snackbar("profile", "profile Success");
                 },
