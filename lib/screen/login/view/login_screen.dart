@@ -22,121 +22,140 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.chat,
-              color: green,
-              size: 100,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              "Create Account",
-              style: TextStyle(
-                  fontSize: 35, fontWeight: FontWeight.bold, color: green),
-            ),
-            const Text(
-              "Login",
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            TextFormField(
-              controller: txtEmail,
-              decoration: const InputDecoration(
-                label: Text(
-                  "Email",
+      body: Stack(
+        children: [
+          homeController.themeName.value == "dark"
+              ? Image(
+            image:
+            const AssetImage("assets/image/whatsapp wallpaper2.jpg"),
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height,
+            fit: BoxFit.cover,
+          )
+              : Image(
+            image:
+            const AssetImage("assets/image/whatsapp wallpaper.jpg"),
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height,
+            fit: BoxFit.cover,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.chat,
+                  color: green,
+                  size: 100,
                 ),
-                border: OutlineInputBorder(),
-              ),
-              validator: (value) {
-                if(value!.isEmpty)
-                  {
-                     return "Please enter Email";
-                  }
-                return null;
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            TextFormField(
-              controller: txtPassword,
-              obscureText: true,
-              decoration: const InputDecoration(
-                label: Text(
-                  "Password",
+                const SizedBox(
+                  height: 10,
                 ),
-                border: OutlineInputBorder(),
-              ),
-              validator: (value) {
-                if(value!.isEmpty)
-                {
-                  return "Please enter Password";
-                }
-                return null;
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                String mag = await AuthHelper.helper
-                    .signInEmailWithPassword(txtEmail.text, txtPassword.text);
-                if (mag == "Success") {
-                  AuthHelper.helper.chaekUser();
-                  Get.offAndToNamed('/profile');
-                } else {
-                  Get.snackbar(mag, "My ChatApp");
-                }
+                const Text(
+                  "Create Account",
+                  style: TextStyle(
+                      fontSize: 35, fontWeight: FontWeight.bold, color: green),
+                ),
+                const Text(
+                  "Login",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                TextFormField(
+                  controller: txtEmail,
+                  decoration: const InputDecoration(
+                    label: Text(
+                      "Email",
+                    ),
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if(value!.isEmpty)
+                      {
+                         return "Please enter Email";
+                      }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: txtPassword,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    label: Text(
+                      "Password",
+                    ),
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if(value!.isEmpty)
+                    {
+                      return "Please enter Password";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    String mag = await AuthHelper.helper
+                        .signInEmailWithPassword(txtEmail.text, txtPassword.text);
+                    if (mag == "Success") {
+                      AuthHelper.helper.chaekUser();
+                      Get.offAndToNamed('/profile');
+                    } else {
+                      Get.snackbar(mag, "My ChatApp");
+                    }
 
-              },
-              child:  Text(
-                "Login",style: TextStyle( color:homeController.themeName.value == "dark"?Colors.white:Colors.black),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              onTap: () async {
-                String mag =
-                    await AuthHelper.helper.signGoolgeWithEmailAndPassword();
-                if (mag == "Success") {
-                  AuthHelper.helper.chaekUser();
-                  Get.offAndToNamed('/profile');
-                  Get.snackbar("Successful", "My ChatApp");
-                } else {
-                  Get.snackbar(mag, "My ChatApp");
-                }
-              },
-              child: const Card(
-                child: Image(
-                  image: AssetImage("assets/image/google.png"),
-                  width: 200,
+                  },
+                  child:  Text(
+                    "Login",style: TextStyle( color:homeController.themeName.value == "dark"?Colors.white:Colors.black),
+                  ),
                 ),
-              ),
+                const SizedBox(
+                  height: 10,
+                ),
+                InkWell(
+                  onTap: () async {
+                    String mag =
+                        await AuthHelper.helper.signGoolgeWithEmailAndPassword();
+                    if (mag == "Success") {
+                      AuthHelper.helper.chaekUser();
+                      Get.offAndToNamed('/profile');
+                      Get.snackbar("Successful", "My ChatApp");
+                    } else {
+                      Get.snackbar(mag, "My ChatApp");
+                    }
+                  },
+                  child: const Card(
+                    child: Image(
+                      image: AssetImage("assets/image/google.png"),
+                      width: 200,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextButton(
+                  onPressed: () {
+                    Get.toNamed("/signup");
+                  },
+                  child: const Text("Don't have an account? Signup"),
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            TextButton(
-              onPressed: () {
-                Get.toNamed("/signup");
-              },
-              child: const Text("Don't have an account? Signup"),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
