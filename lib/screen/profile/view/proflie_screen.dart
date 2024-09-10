@@ -122,7 +122,7 @@ class _ProflieScreenState extends State<ProflieScreen> {
                       bio: txtBio.text,
                       uid: AuthHelper.helper.user!.uid);
                  await FireBaseDbHelper.helper.setProfile(model);
-                  Get.toNamed("/home");
+                  Get.toNamed("/dase");
                   Get.snackbar("profile", "profile Success");
                 },
                 child: const Text("Submit"),

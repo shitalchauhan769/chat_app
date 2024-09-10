@@ -25,7 +25,7 @@ class _AllUserScreenState extends State<AllUserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("user"),
+        title: const Text("Select contact"),
         actions: [
           IconButton(
             onPressed: () {},
@@ -49,26 +49,69 @@ class _AllUserScreenState extends State<AllUserScreen> {
           )
         ],
       ),
-      body: Obx(
-        () => ListView.builder(
-          itemCount: controller.profileList.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              onTap: () async {
-                await FireBaseDbHelper.helper.getDocId(
-                    AuthHelper.helper.user!.uid,
-                    controller.profileList[index].uid!);
-                Get.toNamed("/chat", arguments: controller.profileList[index]);
-              },
-              leading: CircleAvatar(
-                backgroundColor: green,
-                child: Text(controller.profileList[index].name![0]),
+      body: Column(
+        children: [
+          const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: green,
+                  child: Icon(Icons.group_add),
+                ),
+                title: Text("New group"),
+
               ),
-              title: Text("${controller.profileList[index].name}"),
-              subtitle: Text("${controller.profileList[index].mobile}"),
-            );
-          },
-        ),
+              SizedBox(height: 10,),
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: green,
+                  child: Icon(Icons.person_add_alt_1),
+                ),
+                title: Text("New contact"),
+
+              ),
+              SizedBox(height: 10,),
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: green,
+                  child: Icon(Icons.groups),
+                ),
+                title: Text("New community"),
+
+              ),
+              SizedBox(height: 10,),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Contact on WhatsApp"),
+              ),
+              SizedBox(height: 10,),
+            ],
+          ),
+          Obx(
+            () => Expanded(
+              child: ListView.builder(
+                itemCount: controller.profileList.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () async {
+                      await FireBaseDbHelper.helper.getDocId(
+                          AuthHelper.helper.user!.uid,
+                          controller.profileList[index].uid!);
+                      Get.toNamed("/chat", arguments: controller.profileList[index]);
+                    },
+                    leading: CircleAvatar(
+                      backgroundColor: green,
+                      child: Text(controller.profileList[index].name![0]),
+                    ),
+                    title: Text("${controller.profileList[index].name}"),
+                    subtitle: Text("${controller.profileList[index].mobile}"),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

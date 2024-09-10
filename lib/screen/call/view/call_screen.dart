@@ -21,11 +21,12 @@ class _CallScreenState extends State<CallScreen> {
     controller.getUserAll();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("user"),
+        title: const Text("Call"),
         actions: [
           IconButton(
             onPressed: () {},
@@ -57,26 +58,52 @@ class _CallScreenState extends State<CallScreen> {
           )
         ],
       ),
-      body: Obx(
-            () => ListView.builder(
-          itemCount: controller.profileList.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              onTap: () async {
-                await FireBaseDbHelper.helper.getDocId(
-                    AuthHelper.helper.user!.uid,
-                    controller.profileList[index].uid!);
-                Get.toNamed("/chat", arguments: controller.profileList[index]);
-              },
-              leading: CircleAvatar(
-                backgroundColor: green,
-                child: Text(controller.profileList[index].name![0]),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+           const Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+               Text(" Favourite",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+               SizedBox(height: 10,),
+               ListTile(
+                 leading: CircleAvatar(
+                   backgroundColor: green,
+                   child: Icon(Icons.favorite),
+                 ),
+                 title: Text("Add favourite"),
+               ),
+               SizedBox(height: 10,),
+               Text(" Recent",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+             ],
+           ),
+            Expanded(
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: controller.profileList.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      onTap: () async {
+                        await FireBaseDbHelper.helper.getDocId(
+                            AuthHelper.helper.user!.uid,
+                            controller.profileList[index].uid!);
+                        Get.toNamed("/chat",
+                            arguments: controller.profileList[index]);
+                      },
+                      leading: CircleAvatar(
+                        backgroundColor: green,
+                        child: Text(controller.profileList[index].name![0]),
+                      ),
+                      title: Text("${controller.profileList[index].name}"),
+                      subtitle: Text("${controller.profileList[index].mobile}"),
+                      trailing: const Icon(Icons.video_call),
+                    );
+                  },
+                ),
               ),
-              title: Text("${controller.profileList[index].name}"),
-              subtitle: Text("${controller.profileList[index].mobile}"),
-              trailing: const Icon(Icons.video_call),
-            );
-          },
+            ),
+          ],
         ),
       ),
     );

@@ -11,8 +11,9 @@ class HomeController extends GetxController
   RxList<ProfileModel>userList=<ProfileModel>[].obs;
   ProfileModel? model;
   String selctedSegmented="chat";
-  int selctedBottom=0;
+  RxInt selctedBottom = 0.obs;
   RxString themeName = "system".obs;
+  String? theme;
 
 
   void getUser() {
@@ -33,12 +34,9 @@ class HomeController extends GetxController
     themeName.value = theme?? "light";
 
   }
-  // void changBottom(int value) {
-  //   selctedBottom =value;
-  //
-  // }
-  // void changSegmented(String chat) {
-  //   selctedSegmented  =chat;
-  //
-  // }
+
+  void changeTheme() {
+    theme!=theme;
+  }
+
 }

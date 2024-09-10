@@ -5,6 +5,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:my_chat_app/utils/colors.dart';
 import 'package:my_chat_app/utils/helper/auth_helper.dart';
 
+import '../../home/controller/home_controller.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -15,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
+  HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +57,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 border: OutlineInputBorder(),
               ),
+              validator: (value) {
+                if(value!.isEmpty)
+                  {
+                     return "Please enter Email";
+                  }
+                return null;
+              },
             ),
             const SizedBox(
               height: 10,
@@ -67,6 +77,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 border: OutlineInputBorder(),
               ),
+              validator: (value) {
+                if(value!.isEmpty)
+                {
+                  return "Please enter Password";
+                }
+                return null;
+              },
             ),
             const SizedBox(
               height: 10,
@@ -81,9 +98,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 } else {
                   Get.snackbar(mag, "My ChatApp");
                 }
+
               },
-              child: const Text(
-                "Login",
+              child:  Text(
+                "Login",style: TextStyle( color:homeController.themeName.value == "dark"?Colors.white:Colors.black),
               ),
             ),
             const SizedBox(

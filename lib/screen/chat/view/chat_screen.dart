@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_chat_app/screen/chat/controller/chat_controller.dart';
 import 'package:my_chat_app/screen/chat/model/chat_model.dart';
+import 'package:my_chat_app/screen/home/controller/home_controller.dart';
 import 'package:my_chat_app/screen/profile/model/proflie_model.dart';
 import 'package:my_chat_app/utils/colors.dart';
 import 'package:my_chat_app/utils/helper/auth_helper.dart';
@@ -19,6 +20,7 @@ class _ChatScreenState extends State<ChatScreen> {
   ProfileModel model = Get.arguments;
   TextEditingController txtSend = TextEditingController();
   ChatController controller = Get.put(ChatController());
+  HomeController homeController = Get.put(HomeController());
 
   @override
   void initState() {
@@ -71,9 +73,6 @@ class _ChatScreenState extends State<ChatScreen> {
             ],
           ),
         ],
-        // flexibleSpace: IconButton(onPressed: () {
-        //
-        // }, icon: const Icon(Icons.arrow_back)),
         leading: Container(
           // padding: const EdgeInsets.all(5),
           margin: const EdgeInsets.all(7),
@@ -87,17 +86,25 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
         ),
-
         title: Text("${model.name}"),
       ),
       body: Stack(
         children: [
-          Image(
-              image: const AssetImage("assets/image/whatsapp wallpaper.jpg"),
-              width: MediaQuery.sizeOf(context).width,
-              height: MediaQuery.sizeOf(context).height,
-            fit: BoxFit.cover,
-          ),
+          homeController.themeName.value == "dark"
+              ? Image(
+                  image:
+                      const AssetImage("assets/image/whatsapp wallpaper2.jpg"),
+                  width: MediaQuery.sizeOf(context).width,
+                  height: MediaQuery.sizeOf(context).height,
+                  fit: BoxFit.cover,
+                )
+              : Image(
+                  image:
+                      const AssetImage("assets/image/whatsapp wallpaper.jpg"),
+                  width: MediaQuery.sizeOf(context).width,
+                  height: MediaQuery.sizeOf(context).height,
+                  fit: BoxFit.cover,
+                ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -160,10 +167,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                 alignment: Alignment.centerLeft,
                                 decoration: BoxDecoration(
                                   color: chatList[index].senderUid !=
-                                      AuthHelper.helper.user!.uid?Colors.white:green,
+                                          AuthHelper.helper.user!.uid
+                                      ? Colors.white
+                                      : green,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Text("${chatList[index].msg}"),
+                                child: Text("${chatList[index].msg}",style: TextStyle(color: homeController.themeName.value == "dark"?Colors.black:Colors.black),),
                               ),
                             ),
                           );
@@ -177,22 +186,18 @@ class _ChatScreenState extends State<ChatScreen> {
                 },
               ),
               Card(
-                margin: const EdgeInsets.all(5),
+                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
+                color: green,
+                margin: const EdgeInsets.all(10),
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(200)
-                          ),
-                          child: TextFormField(
-                            controller: txtSend,
-                            cursorRadius: const Radius.circular(20),
-                            decoration: const InputDecoration(
-                              hintText: " Write Messenger",
-                            ),
+                        child: TextFormField(
+                          controller: txtSend,
+                          decoration: const InputDecoration(
+                            hintText: " Write Messenger",
                           ),
                         ),
                       ),

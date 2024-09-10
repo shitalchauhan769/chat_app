@@ -86,12 +86,21 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: Drawer(
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment. center,
+            mainAxisSize: MainAxisSize.min,
             children: [
+              const Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Icon(
+                  Icons.chat,
+                  color: green,
+                  size: 100,
+                ),
+              ),
               const SizedBox(
-                height: 200,
+                height: 100,
               ),
               InkWell(
                 onTap: () {
@@ -258,88 +267,5 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-
-// bottomNavigationBar: BottomNavigationBar(
-//         currentIndex: providerW!.selactedBottom,
-//         items: const [
-//           BottomNavigationBarItem(icon: Icon(Icons.chat), label: "chat"),
-//           BottomNavigationBarItem(
-//               icon: Icon(Icons.contact_phone), label: "status"),
-//           BottomNavigationBarItem(icon: Icon(Icons.call), label: "call"),
-//         ],
-//         onTap: (value) {
-//           providerR!.changBottom(value);
-//         },
-//       ),
-
-//StreamBuilder(
-//         stream: homeController.chatUser,
-//         builder: (context, snapshot) {
-//           if (snapshot.hasError) {
-//             return Text("${snapshot.error}");
-//           } else if (snapshot.hasData) {
-//             homeController.userList.clear();
-//             QuerySnapshot? sq = snapshot.data;
-//             List<QueryDocumentSnapshot> sqList = sq!.docs;
-//
-//             for (var x in sqList) {
-//               Map m1 = x.data() as Map;
-//               List uidList = m1["uids"];
-//               String receiverID = "";
-//               if (uidList[0] == AuthHelper.helper.user!.uid) {
-//                 receiverID = uidList[1];
-//               } else {
-//                 receiverID = uidList[0];
-//               }
-//               homeController.getChat(receiverID).then(
-//                 (value) {
-//                   homeController.userList.add(homeController.model!);
-//                 },
-//               );
-//             }
-//
-//             return Obx(
-//               () => ListView.builder(
-//                 itemCount: homeController.userList.length,
-//                 itemBuilder: (context, index) {
-//                   return ListTile(
-//                     onTap: () async {
-//                       await FireBaseDbHelper.helper.getDocId(
-//                           AuthHelper.helper.user!.uid,
-//                           homeController.userList[index].uid!);
-//                       Get.toNamed("/chat",
-//                           arguments: homeController.userList[index]);
-//                     },
-//                     leading: CircleAvatar(
-//                       backgroundColor: green,
-//                       child: Text(homeController.userList[index].name![0]),
-//                     ),
-//                     title: Text("${homeController.userList[index].name}"),
-//                     subtitle: Text("${homeController.userList[index].mobile}"),
-//                     trailing: Text("${""}"),
-//                   );
-//                 },
-//               ),
-//             );
-//           }
-//           return const Center(
-//             child: CircularProgressIndicator(),
-//           );
-//         },
-//       )
-
-//  // bottomNavigationBar: BottomNavigationBar(
-//       //   currentIndex: homeController.selctedBottom,
-//       //   backgroundColor: Colors.black,
-//       //   items: const [
-//       //     BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chat",),
-//       //     BottomNavigationBarItem(icon: Icon(Icons.update), label: "Updates",),
-//       //     BottomNavigationBarItem(icon: Icon(Icons.comment), label: "Communities",),
-//       //     BottomNavigationBarItem(icon: Icon(Icons.phone), label: "Call",),
-//       //   ],
-//       //   onTap: (value) {
-//       //     homeController.changBottom(value);
-//       //   },
-//       // ),
 
 
