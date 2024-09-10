@@ -46,13 +46,13 @@ class _DaseScreenState extends State<DaseScreen> {
           SalomonBottomBarItem(
             icon: Icon(Icons.chat,color: homeController.themeName.value =="light"?Colors.black:Colors.white,),
             title: const Text("Chat"),
-            selectedColor: Colors.orange,
+            selectedColor: Colors.purple,
           ),
 
           SalomonBottomBarItem(
             icon: Icon(Icons.update,color: homeController.themeName.value =="light"?Colors.black:Colors.white,),
             title: const Text("Updates"),
-            selectedColor: Colors.orange,
+            selectedColor: Colors.pink,
           ),
 
           SalomonBottomBarItem(
@@ -64,13 +64,13 @@ class _DaseScreenState extends State<DaseScreen> {
           SalomonBottomBarItem(
             icon: Icon(Icons.phone,color: homeController.themeName.value =="light"?Colors.black:Colors.white,),
             title: const Text("Call"),
-            selectedColor: Colors.orange,
+            selectedColor:  Colors.teal,
           ),
 
         ],
         onTap: (value) {
-          homeController.selctedBottom.value=value;
-          print(homeController.selctedBottom.value);
+          homeController.selctedBottom.value = value;
+          // print(homeController.selctedBottom.value);
         },
       ),
     );
