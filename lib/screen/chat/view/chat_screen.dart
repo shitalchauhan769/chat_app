@@ -82,11 +82,11 @@ class _ChatScreenState extends State<ChatScreen> {
             backgroundColor: Colors.white,
             child: Text(
               model.name![0],
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style:  TextStyle(fontWeight: FontWeight.bold,color: homeController.themeName.value == "dark"?Colors.black:Colors.black),
             ),
           ),
         ),
-        title: Text("${model.name}"),
+        title: Text("${model.name}",style: TextStyle(color: homeController.themeName.value == "dark"?Colors.black:Colors.black),),
       ),
       body: Stack(
         children: [
@@ -105,119 +105,117 @@ class _ChatScreenState extends State<ChatScreen> {
                   height: MediaQuery.sizeOf(context).height,
                   fit: BoxFit.cover,
                 ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              StreamBuilder(
-                stream: controller.dataSnap,
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text("${snapshot.hasError}");
-                  } else if (snapshot.hasData) {
-                    List<ChatModel> chatList = [];
-                    QuerySnapshot? snap = snapshot.data;
-                    for (var x in snap!.docs) {
-                      Map m1 = x.data() as Map;
-                      ChatModel c1 = ChatModel.mapToModel(m1);
-                      c1.docId = x.id;
-                      chatList.add(c1);
-                    }
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: chatList.length,
-                        itemBuilder: (context, index) {
-                          return Container(
+          StreamBuilder(
+            stream: controller.dataSnap,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text("${snapshot.hasError}");
+              } else if (snapshot.hasData) {
+                List<ChatModel> chatList = [];
+                QuerySnapshot? snap = snapshot.data;
+                for (var x in snap!.docs) {
+                  Map m1 = x.data() as Map;
+                  ChatModel c1 = ChatModel.mapToModel(m1);
+                  c1.docId = x.id;
+                  chatList.add(c1);
+                }
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: chatList.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.all(5),
+                        width: 200,
+                        height: 50,
+                        alignment: chatList[index].senderUid !=
+                                AuthHelper.helper.user!.uid
+                            ? Alignment.centerLeft
+                            : Alignment.centerRight,
+                        child: InkWell(
+                          onLongPress: () {
+                            if (chatList[index].senderUid ==
+                                AuthHelper.helper.user!.uid) {
+                              Get.defaultDialog(
+                                title: "you went to delete messege",
+                                actions: [
+                                  TextButton(
+                                    onPressed: () async {
+                                      await FireBaseDbHelper.helper
+                                          .deleteChat(
+                                              chatList[index].docId!);
+                                      Get.back();
+                                    },
+                                    child: const Text("Delete"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: const Text("Cancel"),
+                                  ),
+                                ],
+                              );
+                            }
+                          },
+                          child: Container(
+                            width: MediaQuery.sizeOf(context).width * 0.50,
                             margin: const EdgeInsets.all(5),
-                            width: 200,
-                            height: 50,
-                            alignment: chatList[index].senderUid !=
-                                    AuthHelper.helper.user!.uid
-                                ? Alignment.centerLeft
-                                : Alignment.centerRight,
-                            child: InkWell(
-                              onLongPress: () {
-                                if (chatList[index].senderUid ==
-                                    AuthHelper.helper.user!.uid) {
-                                  Get.defaultDialog(
-                                    title: "you went to delete messege",
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () async {
-                                          await FireBaseDbHelper.helper
-                                              .deleteChat(
-                                                  chatList[index].docId!);
-                                          Get.back();
-                                        },
-                                        child: const Text("Delete"),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Get.back();
-                                        },
-                                        child: const Text("Cancel"),
-                                      ),
-                                    ],
-                                  );
-                                }
-                              },
-                              child: Container(
-                                width: MediaQuery.sizeOf(context).width * 0.50,
-                                margin: const EdgeInsets.all(5),
-                                padding: const EdgeInsets.all(5),
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: chatList[index].senderUid !=
-                                          AuthHelper.helper.user!.uid
-                                      ? Colors.white
-                                      : green,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text("${chatList[index].msg}",style: TextStyle(color: homeController.themeName.value == "dark"?Colors.black:Colors.black),),
-                              ),
+                            padding: const EdgeInsets.all(5),
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                              color: chatList[index].senderUid !=
+                                      AuthHelper.helper.user!.uid
+                                  ? Colors.white
+                                  : green,
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          );
-                        },
-                      ),
-                    );
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              ),
-              Card(
-                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
-                color: green,
-                margin: const EdgeInsets.all(10),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: txtSend,
-                          decoration: const InputDecoration(
-                            hintText: " Write Messenger",
+                            child: Text("${chatList[index].msg}",style: TextStyle(color: homeController.themeName.value == "dark"?Colors.black:Colors.black),),
                           ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          ChatModel m1 = ChatModel(
-                              dateTime: Timestamp.now(),
-                              msg: txtSend.text,
-                              senderUid: AuthHelper.helper.user!.uid);
-                          FireBaseDbHelper.helper.sendMessege(
-                              AuthHelper.helper.user!.uid, model.uid!, m1);
-                        },
-                        icon: const Icon(Icons.send),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                ),
-              )
-            ],
+                );
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
+          Spacer(),
+          Card(
+            shape: RoundedRectangleBorder(borderRadius:  BorderRadius.circular(50)),
+            color: green,
+            margin: const EdgeInsets.all(10),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: txtSend,
+                      decoration: const InputDecoration(
+                        hintText: " Write Messenger",
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      ChatModel m1 = ChatModel(
+                          dateTime: Timestamp.now(),
+                          msg: txtSend.text,
+                          senderUid: AuthHelper.helper.user!.uid);
+                      FireBaseDbHelper.helper.sendMessege(
+                          AuthHelper.helper.user!.uid, model.uid!, m1);
+                    },
+                    icon: const Icon(Icons.send),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+
         ],
       ),
     );

@@ -10,14 +10,14 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../../home/controller/home_controller.dart';
 import '../../user/controller/user_controller.dart';
 
-class DaseScreen extends StatefulWidget {
-  const DaseScreen({super.key});
+class DashScreen extends StatefulWidget {
+  const DashScreen({super.key});
 
   @override
-  State<DaseScreen> createState() => _DaseScreenState();
+  State<DashScreen> createState() => _DashScreenState();
 }
 
-class _DaseScreenState extends State<DaseScreen> {
+class _DashScreenState extends State<DashScreen> {
   HomeController homeController = Get.put(HomeController());
   UserController controller = Get.put(UserController());
 
@@ -27,10 +27,10 @@ class _DaseScreenState extends State<DaseScreen> {
     super.initState();
   }
   List screenList=[
-    HomeScreen(),
-    UpdatesScreen(),
-    CommunitiesScreen(),
-    CallScreen(),
+    const HomeScreen(),
+    const UpdatesScreen(),
+    const CommunitiesScreen(),
+    const CallScreen(),
   ];
 
 

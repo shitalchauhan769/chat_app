@@ -27,7 +27,7 @@ class AuthHelper {
     }
   }
 
-  bool chaekUser() {
+  bool chakeUser() {
     user = auth.currentUser;
     return user != null;
 

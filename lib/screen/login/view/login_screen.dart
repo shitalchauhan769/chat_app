@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     String mag = await AuthHelper.helper
                         .signInEmailWithPassword(txtEmail.text, txtPassword.text);
                     if (mag == "Success") {
-                      AuthHelper.helper.chaekUser();
+                      AuthHelper.helper.chakeUser();
                       Get.offAndToNamed('/profile');
                     } else {
                       Get.snackbar(mag, "My ChatApp");
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     String mag =
                         await AuthHelper.helper.signGoolgeWithEmailAndPassword();
                     if (mag == "Success") {
-                      AuthHelper.helper.chaekUser();
+                      AuthHelper.helper.chakeUser();
                       Get.offAndToNamed('/profile');
                       Get.snackbar("Successful", "My ChatApp");
                     } else {

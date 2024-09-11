@@ -103,12 +103,11 @@ class _SignupScreenState extends State<SignupScreen> {
                   onPressed: () async {
                     String mag = await AuthHelper.helper.signUpEmailWithPassword(txtEmail.text, txtPassword.text);
                     if (mag == "Success") {
-
                       Get.snackbar("Successful", "My ChatApp");
-
+                      Get.offAllNamed("/login");
                     } else {
                       Get.snackbar(mag, "My ChatApp");
-                      Get.offAllNamed("/login");
+
                     }
 
                   },

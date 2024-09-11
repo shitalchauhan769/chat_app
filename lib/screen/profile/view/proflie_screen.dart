@@ -7,6 +7,8 @@ import 'package:my_chat_app/screen/profile/model/proflie_model.dart';
 import 'package:my_chat_app/utils/helper/auth_helper.dart';
 import 'package:my_chat_app/utils/helper/db_helper.dart';
 
+import '../../home/controller/home_controller.dart';
+
 class ProflieScreen extends StatefulWidget {
   const ProflieScreen({super.key});
 
@@ -20,6 +22,7 @@ class _ProflieScreenState extends State<ProflieScreen> {
   TextEditingController txtMobile = TextEditingController();
   TextEditingController txtBio = TextEditingController();
   LoginController controller=Get.put(LoginController());
+  HomeController homeController = Get.put(HomeController());
 
   @override
   void initState() {
@@ -122,10 +125,10 @@ class _ProflieScreenState extends State<ProflieScreen> {
                       bio: txtBio.text,
                       uid: AuthHelper.helper.user!.uid);
                  await FireBaseDbHelper.helper.setProfile(model);
-                  Get.toNamed("/dase");
+                  Get.toNamed("/dash");
                   Get.snackbar("profile", "profile Success");
                 },
-                child: const Text("Submit"),
+                child:  Text("Submit",style: TextStyle(color: homeController.themeName.value == "dark"?Colors.white:Colors.black),),
               ),
             ],
           ),
