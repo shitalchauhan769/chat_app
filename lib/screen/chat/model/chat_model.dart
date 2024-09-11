@@ -10,6 +10,6 @@ class ChatModel
   ChatModel({this.msg, this.senderUid, this.dateTime});
   factory ChatModel.mapToModel(Map m1)
   {
-     return ChatModel(senderUid: m1['senderUid'],msg: m1['msg'],dateTime: m1['date']);
+     return ChatModel(senderUid: m1['senderUid'],msg: m1['msg'],dateTime: m1['dateTime']);
   }
 }

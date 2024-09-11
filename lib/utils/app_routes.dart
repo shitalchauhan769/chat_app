@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_chat_app/screen/chat/view/chat_screen.dart';
+import 'package:my_chat_app/screen/communities/view/communiti_view_screen.dart';
 import 'package:my_chat_app/screen/communities/view/communities_screen.dart';
-
 import 'package:my_chat_app/screen/home/view/home_screen.dart';
 import 'package:my_chat_app/screen/login/view/login_screen.dart';
 import 'package:my_chat_app/screen/login/view/signup_screen.dart';
+import 'package:my_chat_app/screen/notification/view/notification_screen.dart';
 import 'package:my_chat_app/screen/splash/view/splash_screen.dart';
 import 'package:my_chat_app/screen/updates/view/updates_screen.dart';
 import 'package:my_chat_app/screen/user/view/user_screen.dart';
@@ -22,5 +23,7 @@ Map<String,WidgetBuilder>appRoutes={
   '/updates':(c1)=> const UpdatesScreen(),
   '/communities':(c1)=> const CommunitiesScreen(),
   '/dash':(c1)=> const DashScreen(),
+  '/notification':(c1)=> const NotificationScreen(),
+  '/communitiesView':(c1)=> const CommunitiesViewScreen(),
 
 };

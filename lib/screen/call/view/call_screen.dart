@@ -26,19 +26,19 @@ class _CallScreenState extends State<CallScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Call"),
+        title: const Text("Call",style: TextStyle(color: Colors.white,),),
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.document_scanner_outlined),
+            icon: const Icon(Icons.document_scanner_outlined,color: Colors.white,),
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.photo_camera),
+            icon: const Icon(Icons.photo_camera,color: Colors.white,),
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.search_rounded),
+            icon: const Icon(Icons.search_rounded,color: Colors.white,),
           ),
           PopupMenuButton(
             itemBuilder: (context) => [

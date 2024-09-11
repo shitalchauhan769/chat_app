@@ -11,7 +11,8 @@ class AuthHelper {
 
   Future<String> signUpEmailWithPassword(String email, String password) async {
     try {
-      await auth.createUserWithEmailAndPassword(email: email, password: password);
+      await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       return "Success";
     } on FirebaseAuthException catch (e) {
       return e.message ?? "Failed";
@@ -27,10 +28,9 @@ class AuthHelper {
     }
   }
 
-  bool chakeUser() {
+  bool checkUser() {
     user = auth.currentUser;
     return user != null;
-
   }
 
   Future<void> logOut() async {
@@ -38,10 +38,12 @@ class AuthHelper {
   }
 
   Future<String> signGoolgeWithEmailAndPassword() async {
-
     GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
-    GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!.authentication;
-    var cred = GoogleAuthProvider.credential(accessToken: googleSignInAuthentication.accessToken, idToken: googleSignInAuthentication.idToken);
+    GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount!.authentication;
+    var cred = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken);
     UserCredential userCred = await auth.signInWithCredential(cred);
     user = userCred.user;
     if (user != null) {

@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:my_chat_app/screen/home/controller/home_controller.dart';
 import 'package:my_chat_app/screen/profile/model/proflie_model.dart';
 import 'package:my_chat_app/utils/helper/auth_helper.dart';
+import 'package:my_chat_app/utils/helper/shared_helper.dart';
 import 'package:my_chat_app/utils/services/notification_services.dart';
 
 import '../../../utils/colors.dart';
@@ -35,14 +36,16 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.document_scanner_outlined),
+            icon: const Icon(Icons.document_scanner_outlined,color: Colors.white,),
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.photo_camera),
+            icon: const Icon(Icons.photo_camera,color: Colors.white,),
           ),
           PopupMenuButton(
+
             itemBuilder: (context) => [
+
               const PopupMenuItem(
                 child: Text(" New group"),
               ),
@@ -61,143 +64,74 @@ class _HomeScreenState extends State<HomeScreen> {
               const PopupMenuItem(
                 child: Text("Setting"),
               ),
-              PopupMenuItem(
-                child: const Text("Light"),
-                onTap: () {
-                  homeController.setTheme("light");
-                },
-              ),
-              PopupMenuItem(
-                child: const Text("Dark"),
-                onTap: () {
-                  homeController.setTheme("dark");
-                },
-              ),
-              PopupMenuItem(
-                child: const Text("System"),
-                onTap: () {
-                  homeController.setTheme("system");
-                },
-              ),
             ],
           )
         ],
-        title: const Text("WhatsApp"),
+        title: const Text("WhatsApp",style: TextStyle(color: Colors.white,),),
       ),
       drawer: Drawer(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment. center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Icon(
-                  Icons.chat,
-                  color: green,
-                  size: 100,
-                ),
-              ),
-              const SizedBox(
-                height: 100,
-              ),
-              InkWell(
+        child: Column(
+          children: [
+            const SizedBox(height: 90,),
+            const Icon(
+              Icons.chat,
+              color: green,
+              size: 100,
+            ),
+            const SizedBox(height: 50,),
+            Card(
+              child: ListTile(
                 onTap: () {
                   Get.toNamed("/profile");
                 },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Profile",
-                      style: TextStyle(fontSize: 15),
-                    ),
-                    Icon(
-                      Icons.person_rounded,
-                    ),
-                  ],
+                title: const Center(child: Text("Profile"),),
+                leading: const Icon(Icons.person),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Card(
+              child: ListTile(
+                title: const Center(child: Text("Theme",),),
+                leading: Obx(
+                  () =>  SizedBox(
+                    height: 35,
+                    width: 35,
+                    child: Switch(value: homeController.theme.value, onChanged: (value) {
+                      ShareHelper.helper.setTheme(theme: homeController.theme.value=value);
+                      print(homeController.theme.value);
+                    },),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              InkWell(
+
+              )
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Card(
+              child: ListTile(
                 onTap: () {
-                  // NotificationMsg.notificationMsg.showSimpleNotification();
+                  Get.toNamed("/notification");
                 },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Simple Notification"),
-                    Icon(Icons.notifications),
-                  ],
-                ),
+                title: const Center(child: Text("Notification"),),
+                leading: const Icon(Icons.notifications),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              InkWell(
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Card(
+              child: ListTile(
                 onTap: () {
-                  NotificationMsg.notificationMsg.showScheduleNotification();
-                },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Schedule Notification"),
-                    Icon(Icons.notifications),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              InkWell(
-                onTap: () {
-                  // NotificationMsg.notificationMsg.showBigPictureNotification();
-                },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("BigPicture Notification"),
-                    Icon(Icons.image),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              InkWell(
-                onTap: () {
-                  NotificationMsg.notificationMsg.showMediaStyleNotification();
-                },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("sound Notification"),
-                    Icon(Icons.music_note),
-                  ],
-                ),
-              ),
-              const Spacer(),
-              InkWell(
-                onTap: () {
-                  AuthHelper.helper.logOut();
                   Get.toNamed("/login");
                 },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "SigningLogout",
-                      style: TextStyle(fontSize: 15),
-                    ),
-                    Icon(Icons.logout),
-                  ],
-                ),
+                title: const Center(child: Text("logout"),),
+                leading: const Icon(Icons.logout),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: StreamBuilder(
@@ -239,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           arguments: homeController.userList[index]);
                     },
                     leading: CircleAvatar(
-                      backgroundColor: green,
+                      backgroundColor: Colors.green.shade400,
                       child: Text(homeController.userList[index].name![0]),
                     ),
                     title: Text("${homeController.userList[index].name}"),
@@ -255,17 +189,15 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
-
       floatingActionButton: FloatingActionButton(
-        backgroundColor: green,
+        backgroundColor: Colors.green.shade400,
         onPressed: () {
           Get.toNamed("/user");
         },
-        child: const Icon(Icons.person),
+        child: const Icon(
+          Icons.person,
+        ),
       ),
     );
   }
 }
-
-
-

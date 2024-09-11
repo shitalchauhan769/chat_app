@@ -64,7 +64,7 @@ class FireBaseDbHelper {
 
     await fireStore.collection("Chat").doc(id).collection("msg").add({
       "msg": model.msg,
-      "date": model.dateTime,
+      "dateTime": model.dateTime,
       "senderUid": model.senderUid,
     });
   }
@@ -107,7 +107,7 @@ class FireBaseDbHelper {
         .collection("Chat")
         .doc(docId)
         .collection("msg")
-        .orderBy("date", descending: false)
+        .orderBy("dateTime", descending: false)
         .snapshots();
     return snapshot;
   }

@@ -23,6 +23,7 @@ class _ProflieScreenState extends State<ProflieScreen> {
   TextEditingController txtBio = TextEditingController();
   LoginController controller=Get.put(LoginController());
   HomeController homeController = Get.put(HomeController());
+  GlobalKey <FormState> fromKey=GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -44,93 +45,136 @@ class _ProflieScreenState extends State<ProflieScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("ProfileScreen"),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle, color: Colors.grey.shade200),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.photo_camera,
-                    size: 30,
+    return Form(
+      key: fromKey,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("ProfileScreen",style: TextStyle(color: Colors.white,),),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: 150,
+                  height: 150,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.green.shade200),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.photo_camera,
+                      size: 30,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                controller: txtName,
-                decoration: const InputDecoration(
-                  label: Text("Name"),
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person_rounded),
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              TextFormField(
-                controller: txtEmail,
-                decoration: const InputDecoration(
-                  label: Text("Email"),
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.email),
+                TextFormField(
+                  controller: txtName,
+                  decoration: const InputDecoration(
+                    label: Text("Name"),
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.person_rounded),
+                  ),
+                  validator: (value) {
+                    if(value!.isEmpty)
+                      {
+                        return  "Please enter Name";
+                      }
+                    return null;
+
+                  },
+
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              TextFormField(
-                controller: txtMobile,
-                decoration: const InputDecoration(
-                  label: Text("Mobile"),
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.phone),
+                const SizedBox(
+                  height: 15,
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              TextFormField(
-                controller: txtBio,
-                decoration: const InputDecoration(
-                  label: Text("Bio"),
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.perm_contact_calendar_sharp),
+                TextFormField(
+                  controller: txtEmail,
+                  decoration: const InputDecoration(
+                    label: Text("Email"),
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                  validator: (value) {
+                    if(value!.isEmpty)
+                      {
+                        return "Please enter Email";
+                      }
+                    else if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(value))
+                      {
+                        return "Please enter Email";
+                      }
+                    return null;
+                  },
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  ProfileModel model= ProfileModel(
-                      name: txtName.text,
-                      email: txtEmail.text,
-                      mobile: txtMobile.text,
-                      bio: txtBio.text,
-                      uid: AuthHelper.helper.user!.uid);
-                 await FireBaseDbHelper.helper.setProfile(model);
-                  Get.toNamed("/dash");
-                  Get.snackbar("profile", "profile Success");
-                },
-                child:  Text("Submit",style: TextStyle(color: homeController.themeName.value == "dark"?Colors.white:Colors.black),),
-              ),
-            ],
+                const SizedBox(
+                  height: 15,
+                ),
+                TextFormField(
+                  controller: txtMobile,
+                  decoration: const InputDecoration(
+                    label: Text("Mobile"),
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.phone),
+                  ),
+                  validator: (value) {
+                    if(value!.isEmpty)
+                    {
+                      return  "Please enter Mobile";
+                    }
+                    return null;
+
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                TextFormField(
+                  controller: txtBio,
+                  decoration: const InputDecoration(
+                    label: Text("Bio"),
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.perm_contact_calendar_sharp),
+                  ),
+                  validator: (value) {
+                    if(value!.isEmpty)
+                    {
+                      return  "Please enter Bio";
+                    }
+                    return null;
+
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    if(fromKey.currentState!.validate())
+                      {
+                        ProfileModel model= ProfileModel(
+                            name: txtName.text,
+                            email: txtEmail.text,
+                            mobile: txtMobile.text,
+                            bio: txtBio.text,
+                            uid: AuthHelper.helper.user!.uid);
+                        await FireBaseDbHelper.helper.setProfile(model);
+                        Get.toNamed("/dash");
+                        Get.snackbar("profile", "profile Success");
+                      }
+                  },
+                  child:  const Text("Submit",),
+                ),
+              ],
+            ),
           ),
         ),
       ),

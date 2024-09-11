@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:my_chat_app/screen/chat/model/chat_model.dart';
 import 'package:my_chat_app/utils/helper/db_helper.dart';
 
 import '../../../utils/helper/shared_helper.dart';
@@ -10,10 +11,10 @@ class HomeController extends GetxController
   Stream<QuerySnapshot>? chatUser;
   RxList<ProfileModel>userList=<ProfileModel>[].obs;
   ProfileModel? model;
-  String selctedSegmented="chat";
+  RxString selctedSegmented="chat".obs;
   RxInt selctedBottom = 0.obs;
-  RxString themeName = "system".obs;
-  String? theme;
+  RxBool theme = false.obs;
+  RxList<ChatModel>chatList=<ChatModel>[].obs;
 
 
   void getUser() {
@@ -24,19 +25,13 @@ class HomeController extends GetxController
     model= await FireBaseDbHelper.helper.userChat(receiverID);
   }
 
-  Future<void> setTheme(String theme) async {
-    ShareHelper.helper.setTheme(theme: theme);
-    await getTheme();
-  }
-
   Future<void> getTheme() async {
-    String? theme = await ShareHelper.helper.getTheme();
-    themeName.value = theme?? "light";
+
+    bool? themeName=await ShareHelper.helper.getTheme();
+    theme.value=themeName??false;
 
   }
 
-  void changeTheme() {
-    theme!=theme;
-  }
+
 
 }

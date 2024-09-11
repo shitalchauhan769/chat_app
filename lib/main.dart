@@ -23,11 +23,7 @@ Future<void> main() async {
   runApp(
     Obx(
       () => GetMaterialApp(
-        theme:lightTheme ,
-        darkTheme: darkTheme,
-        themeMode: controller.themeName.value == "dark"
-            ? ThemeMode.dark
-            : ThemeMode.light,
+        theme: controller.theme.value == false?lightTheme:darkTheme,
         debugShowCheckedModeBanner: false,
         routes: appRoutes,
       ),

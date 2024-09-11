@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState()  {
     super.initState();
-   bool isChaek = AuthHelper.helper.chakeUser();
+   bool isChaek = AuthHelper.helper.checkUser();
     Future.delayed(const Duration(seconds: 3), () => Get.offAllNamed(isChaek?"/dash":"/login"),
     );
   }

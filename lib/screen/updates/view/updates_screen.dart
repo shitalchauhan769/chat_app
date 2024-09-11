@@ -30,19 +30,19 @@ class _UpdatesScreenState extends State<UpdatesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Updates"),
+        title: const Text("Updates",style: TextStyle(color: Colors.white,),),
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.document_scanner_outlined),
+            icon: const Icon(Icons.document_scanner_outlined,color: Colors.white,),
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.photo_camera),
+            icon: const Icon(Icons.photo_camera,color: Colors.white,),
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.search_rounded),
+            icon: const Icon(Icons.search_rounded,color: Colors.white,),
           ),
           PopupMenuButton(
             itemBuilder: (context) => [
@@ -61,19 +61,18 @@ class _UpdatesScreenState extends State<UpdatesScreen> {
       ),
       body: Column(
         children: [
-           Padding(
-            padding: const EdgeInsets.all(8.0),
+           const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                  Text(
                   "Status",
-                  style: TextStyle(
-                      color: homeController.themeName.value == "dark"?Colors.white:Colors.black,
+                  style: TextStyle(// color: homeController.themeName.value == "dark"?Colors.white:Colors.black,
                       fontSize: 20,
                         fontWeight: FontWeight.bold),
                 ),
-                const ListTile(
+                ListTile(
                   leading: CircleAvatar(
                     backgroundColor: green,
                     child: Text(""),
@@ -81,11 +80,11 @@ class _UpdatesScreenState extends State<UpdatesScreen> {
                   title: Text("My Status"),
                   subtitle: Text("Tap to add status updates"),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 10,
                 ),
                 Text("Recent Updates",
-                    style: TextStyle(color: homeController.themeName.value == "dark"?Colors.white:Colors.black, fontSize: 15),),
+                    style: TextStyle( fontSize: 15),),
               ],
             ),
           ),

@@ -6,16 +6,14 @@ class ShareHelper {
 
   ShareHelper._();
 
-  void setTheme({required String theme}) async {
+  void setTheme({required bool theme}) async {
     SharedPreferences s1 = await SharedPreferences.getInstance();
-    print(theme);
-    s1.setString("mode", theme);
+    s1.setBool("mode", theme);
   }
 
-  Future<String?> getTheme() async {
+  Future<bool?> getTheme() async {
     SharedPreferences s1 = await SharedPreferences.getInstance();
-    String? theme1 = s1.getString("mode");
-    print(theme1);
+    bool? theme1 = s1.getBool("mode");
     return theme1;
   }
 }
