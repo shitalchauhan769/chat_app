@@ -105,22 +105,22 @@ class _ChatScreenState extends State<ChatScreen> {
                   height: MediaQuery.sizeOf(context).height,
                   fit: BoxFit.cover,
                 ),
-          StreamBuilder(
-            stream: controller.dataSnap,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text("${snapshot.hasError}");
-              } else if (snapshot.hasData) {
-                List<ChatModel> chatList = [];
-                QuerySnapshot? snap = snapshot.data;
-                for (var x in snap!.docs) {
-                  Map m1 = x.data() as Map;
-                  ChatModel c1 = ChatModel.mapToModel(m1);
-                  c1.docId = x.id;
-                  chatList.add(c1);
-                }
-                return Expanded(
-                  child: ListView.builder(
+          Expanded(
+            child: StreamBuilder(
+              stream: controller.dataSnap,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text("${snapshot.hasError}");
+                } else if (snapshot.hasData) {
+                  List<ChatModel> chatList = [];
+                  QuerySnapshot? snap = snapshot.data;
+                  for (var x in snap!.docs) {
+                    Map m1 = x.data() as Map;
+                    ChatModel c1 = ChatModel.mapToModel(m1);
+                    c1.docId = x.id;
+                    chatList.add(c1);
+                  }
+                  return ListView.builder(
                     itemCount: chatList.length,
                     itemBuilder: (context, index) {
                       return Container(
@@ -174,15 +174,14 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                       );
                     },
-                  ),
+                  );
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
                 );
-              }
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
+              },
+            ),
           ),
-          Spacer(),
           Card(
             shape: RoundedRectangleBorder(borderRadius:  BorderRadius.circular(50)),
             color: green,

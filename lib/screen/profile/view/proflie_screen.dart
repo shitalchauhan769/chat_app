@@ -81,7 +81,7 @@ class _ProflieScreenState extends State<ProflieScreen> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 15,
               ),
               TextFormField(
                 controller: txtEmail,
@@ -92,7 +92,7 @@ class _ProflieScreenState extends State<ProflieScreen> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 15,
               ),
               TextFormField(
                 controller: txtMobile,
@@ -103,7 +103,7 @@ class _ProflieScreenState extends State<ProflieScreen> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 15,
               ),
               TextFormField(
                 controller: txtBio,
@@ -114,7 +114,7 @@ class _ProflieScreenState extends State<ProflieScreen> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 15,
               ),
               ElevatedButton(
                 onPressed: () async {
