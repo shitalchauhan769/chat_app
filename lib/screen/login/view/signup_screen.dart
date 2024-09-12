@@ -140,7 +140,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                       Get.back();
                     },
-                    child: const Text("already have an account? Loin"),
+                    child: const Text("already have an account? Login"),
                   ),
                 ],
               ),
