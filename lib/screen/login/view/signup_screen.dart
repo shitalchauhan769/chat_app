@@ -67,7 +67,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     height: 20,
                   ),
                   const Text(
-                    "Signup",
+                    "SignUp",
                     style: TextStyle(
                         fontSize: 20,
 

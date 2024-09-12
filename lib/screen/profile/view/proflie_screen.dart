@@ -49,7 +49,7 @@ class _ProflieScreenState extends State<ProflieScreen> {
       key: fromKey,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("ProfileScreen",style: TextStyle(color: Colors.white,),),
+          title: const Text("ProfileScreen",),
         ),
         body: SingleChildScrollView(
           child: Padding(

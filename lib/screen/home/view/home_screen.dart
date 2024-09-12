@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           )
         ],
-        title: const Text("WhatsApp",style: TextStyle(color: Colors.white,),),
+        title: const Text("WhatsApp",),
       ),
       drawer: Drawer(
         child: Column(

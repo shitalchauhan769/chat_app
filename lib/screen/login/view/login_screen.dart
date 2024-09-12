@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Text(
                     "Login",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                     ),
                   ),
                   const SizedBox(
@@ -163,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       Get.toNamed("/signup");
                     },
-                    child:  const Text("Don't have an account? Signup",),
+                    child:  const Text("Don't have an account? SignUp",),
                   ),
                 ],
               ),

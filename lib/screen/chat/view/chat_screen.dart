@@ -96,11 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         title: Text(
           "${model.name}",
-          style: TextStyle(
-            color: homeController.theme.value == true
-                ? Colors.black
-                : Colors.white,
-          ),
+
         ),
       ),
       body: Stack(
@@ -153,7 +149,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                 if (chatList[index].senderUid ==
                                     AuthHelper.helper.user!.uid) {
                                   Get.defaultDialog(
-                                    title: "you went to delete messege",
+                                    title: "you want to delete messages",
+
                                     actions: [
                                       TextButton(
                                         onPressed: () async {
