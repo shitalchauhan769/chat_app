@@ -50,7 +50,6 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           PopupMenuButton(
-            color: Colors.white,
             itemBuilder: (context) => [
               const PopupMenuItem(
                 child: Text("Group info"),
@@ -150,6 +149,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                     AuthHelper.helper.user!.uid) {
                                   Get.defaultDialog(
                                     title: "you want to delete messages",
+                                    content: const Text("are you sure"),
+
 
                                     actions: [
                                       TextButton(
@@ -184,7 +185,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                       : Colors.green.shade300,
                                   borderRadius: const BorderRadius.only(
                                       topRight: Radius.circular(10),
-                                      bottomLeft: Radius.circular(10)),
+                                      bottomLeft: Radius.circular(10),
+
+                                  ),
+
                                 ),
                                 child: Column(
                                   children: [
@@ -194,7 +198,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                         color:
                                             homeController.theme.value == true
                                                 ? Colors.black
-                                                : Colors.white,
+                                                : Colors.black,
                                       ),
                                     ),
                                     Expanded(
@@ -206,7 +210,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                           color:
                                               homeController.theme.value == true
                                                   ? Colors.black
-                                                  : Colors.white,
+                                                  : Colors.black,
                                         ),
                                       ),
                                     )),
@@ -265,6 +269,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               dateTime: Timestamp.now(),
                               msg: txtSend.text,
                               senderUid: AuthHelper.helper.user!.uid);
+                          txtSend.clear();
                           FireBaseDbHelper.helper.sendMessege(
                               AuthHelper.helper.user!.uid, model.uid!, m1);
                         },
