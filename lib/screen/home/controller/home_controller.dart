@@ -15,6 +15,7 @@ class HomeController extends GetxController
   RxInt selctedBottom = 0.obs;
   RxBool theme = false.obs;
   RxList<ChatModel>chatList=<ChatModel>[].obs;
+  RxBool isHidePassword = true.obs;
 
 
   void getUser() {
@@ -30,6 +31,11 @@ class HomeController extends GetxController
     bool? themeName=await ShareHelper.helper.getTheme();
     theme.value=themeName??false;
 
+  }
+
+  void hidePassword()
+  {
+    isHidePassword.value=!isHidePassword.value;
   }
 
 

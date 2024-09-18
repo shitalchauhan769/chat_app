@@ -1,5 +1,7 @@
+import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:get/get.dart';
 import 'package:my_chat_app/screen/chat/controller/chat_controller.dart';
 import 'package:my_chat_app/screen/chat/model/chat_model.dart';
@@ -95,7 +97,6 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         title: Text(
           "${model.name}",
-
         ),
       ),
       body: Stack(
@@ -136,11 +137,12 @@ class _ChatScreenState extends State<ChatScreen> {
                         itemCount: chatList.length,
                         itemBuilder: (context, index) {
                           return Container(
-                            margin: const EdgeInsets.all(5),
                             width: 200,
                             height: 60,
+                            margin: const EdgeInsets.all(5),
+
                             alignment: chatList[index].senderUid !=
-                                    AuthHelper.helper.user!.uid
+                                AuthHelper.helper.user!.uid
                                 ? Alignment.centerLeft
                                 : Alignment.centerRight,
                             child: InkWell(
@@ -150,14 +152,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                   Get.defaultDialog(
                                     title: "you want to delete messages",
                                     content: const Text("are you sure"),
-
-
                                     actions: [
                                       TextButton(
                                         onPressed: () async {
                                           await FireBaseDbHelper.helper
                                               .deleteChat(
-                                                  chatList[index].docId!);
+                                              chatList[index].docId!);
                                           Get.back();
                                         },
                                         child: const Text("Delete"),
@@ -174,51 +174,51 @@ class _ChatScreenState extends State<ChatScreen> {
                               },
                               child: Container(
                                 width: MediaQuery.sizeOf(context).width * 0.50,
-                                height: 200,
                                 margin: const EdgeInsets.all(5),
                                 padding: const EdgeInsets.all(5),
                                 alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: chatList[index].senderUid !=
-                                          AuthHelper.helper.user!.uid
+                                decoration:  BoxDecoration(
+                                  color:chatList[index].senderUid !=
+                                      AuthHelper.helper.user!.uid
                                       ? Colors.white
                                       : Colors.green.shade300,
                                   borderRadius: const BorderRadius.only(
-                                      topRight: Radius.circular(10),
-                                      bottomLeft: Radius.circular(10),
-
+                                    topRight: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
                                   ),
-
                                 ),
                                 child: Column(
                                   children: [
+
+
                                     Text(
                                       "${chatList[index].msg}",
                                       style: TextStyle(
-                                        color:
-                                            homeController.theme.value == true
+                                        color: homeController.theme.value == true
                                                 ? Colors.black
                                                 : Colors.black,
                                       ),
                                     ),
                                     Expanded(
-                                        child: Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: Text(
-                                        "${chatList[index].dateTime!.toDate().hour}:${chatList[index].dateTime!.toDate().minute}",
-                                        style: TextStyle(
-                                          color:
-                                              homeController.theme.value == true
-                                                  ? Colors.black
-                                                  : Colors.black,
+                                      child: Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: Text(
+                                          "${chatList[index].dateTime!.toDate().hour}:${chatList[index].dateTime!.toDate().minute}",
+                                          style: TextStyle(
+                                            color: homeController.theme.value ==
+                                                true
+                                                ? Colors.black
+                                                : Colors.black,
+                                          ),
                                         ),
                                       ),
-                                    )),
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
                           );
+
                         },
                       );
                     }
@@ -232,7 +232,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50)),
                 color: homeController.theme.value == false
-                    ? Colors.black
+                    ? Colors.white
                     : Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.all(1.0),
@@ -248,7 +248,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             style: TextStyle(
                               color: homeController.theme.value == true
                                   ? Colors.black
-                                  : Colors.white70,
+                                  : Colors.black,
                             ),
                             controller: txtSend,
                             decoration: InputDecoration(
@@ -256,7 +256,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 wordSpacing: 1,
                                 color: homeController.theme.value == true
                                     ? Colors.black
-                                    : Colors.white70,
+                                    : Colors.black,
                               ),
                               hintText: " Write Messenger",
                             ),
@@ -276,7 +276,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         icon: Icon(
                           Icons.send,
                           color: homeController.theme.value == false
-                              ? Colors.white70
+                              ? Colors.black
                               : Colors.black,
                         ),
                       ),
@@ -291,3 +291,52 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 }
+
+// InkWell(
+// onLongPress: () {
+// if (chatList[index].senderUid ==
+// AuthHelper.helper.user!.uid) {
+// Get.defaultDialog(
+// title: "you want to delete messages",
+// content: const Text("are you sure"),
+// actions: [
+// TextButton(
+// onPressed: () async {
+// await FireBaseDbHelper.helper
+//     .deleteChat(
+// chatList[index].docId!);
+// Get.back();
+// },
+// child: const Text("Delete"),
+// ),
+// TextButton(
+// onPressed: () {
+// Get.back();
+// },
+// child: const Text("Cancel"),
+// ),
+// ],
+// );
+// }
+// },
+// child: Container(
+// child: Column(
+// mainAxisAlignment: MainAxisAlignment.center,
+// children: [
+//
+// BubbleSpecialThree(
+// text: '${chatList[index].msg}',
+// color: const Color(0xFF1B97F3),
+// tail: true,
+// textStyle: const TextStyle(
+// color: Colors.white, fontSize: 16),
+// ),
+// Align(
+// alignment: Alignment.bottomRight,
+// child: Text(
+// "${chatList[index].dateTime!.toDate().hour}:${chatList[index].dateTime!.toDate().minute}"))
+// ],
+// ),
+// ),
+// ),
+

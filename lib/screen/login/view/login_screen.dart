@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
   HomeController homeController = Get.put(HomeController());
-  GlobalKey<FormState> fromKey=GlobalKey<FormState>();
+  GlobalKey<FormState> fromKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,19 +27,27 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         body: Stack(
           children: [
-            homeController.theme.value==true?
+            homeController.theme.value == true ?
             Image(
               image:
               const AssetImage("assets/image/whatsapp wallpaper2.jpg"),
-              width: MediaQuery.sizeOf(context).width,
-              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery
+                  .sizeOf(context)
+                  .width,
+              height: MediaQuery
+                  .sizeOf(context)
+                  .height,
               fit: BoxFit.cover,
             )
-                :Image(
+                : Image(
               image:
               const AssetImage("assets/image/whatsapp wallpaper.jpg"),
-              width: MediaQuery.sizeOf(context).width,
-              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery
+                  .sizeOf(context)
+                  .width,
+              height: MediaQuery
+                  .sizeOf(context)
+                  .height,
               fit: BoxFit.cover,
             ),
             Padding(
@@ -58,7 +66,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Text(
                     "Login Your Account",
                     style: TextStyle(
-                        fontSize: 35, fontWeight: FontWeight.bold, color: green),
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                        color: green),
                   ),
                   const Text(
                     "Login",
@@ -78,13 +88,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       border: OutlineInputBorder(),
                     ),
                     validator: (value) {
-                      if(value!.isEmpty)
-                      {
+                      if (value!.isEmpty) {
                         return "Please enter Email";
                       }
-                      else if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value))
-                      {
+                      else if (!RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)) {
                         return "Please enter Email";
                       }
                       return null;
@@ -93,44 +102,49 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  TextFormField(
-                    controller: txtPassword,
-                    obscureText: true,
-
-                    decoration: const InputDecoration(
-                      label: Text(
-                        "Password",
+                  Obx(
+                    () =>  TextFormField(
+                      obscureText:homeController.isHidePassword.value,
+                      controller: txtPassword,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(onPressed: () {
+                          homeController.hidePassword();
+                        },
+                          icon: Icon(homeController.isHidePassword.value
+                              ?Icons.visibility_off
+                              :Icons.visibility
+                          ),),
+                        label: const Text(
+                          "Password",
+                        ),
+                        border: const OutlineInputBorder(),
                       ),
-                      border: OutlineInputBorder(),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter Password";
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if(value!.isEmpty)
-                      {
-                        return "Please enter Password";
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   ElevatedButton(
                     onPressed: () async {
-
-                     if(fromKey.currentState!.validate())
-                       {
-                         String mag = await AuthHelper.helper
-                             .signInEmailWithPassword(txtEmail.text, txtPassword.text);
-                         if (mag == "Success") {
-                           AuthHelper.helper.checkUser();
-                           Get.offAndToNamed('/profile');
-                         } else {
-                           Get.snackbar(mag, "My ChatApp");
-                         }
-                       }
-
+                      if (fromKey.currentState!.validate()) {
+                        String mag = await AuthHelper.helper
+                            .signInEmailWithPassword(
+                            txtEmail.text, txtPassword.text);
+                        if (mag == "Success") {
+                          AuthHelper.helper.checkUser();
+                          Get.offAndToNamed('/profile');
+                        } else {
+                          Get.snackbar(mag, "My ChatApp");
+                        }
+                      }
                     },
-                    child:  const Text(
+                    child: const Text(
                       "Login",
                     ),
                   ),
@@ -140,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   InkWell(
                     onTap: () async {
                       String mag =
-                          await AuthHelper.helper.signGoolgeWithEmailAndPassword();
+                      await AuthHelper.helper.signGoolgeWithEmailAndPassword();
                       if (mag == "Success") {
                         AuthHelper.helper.checkUser();
                         Get.offAndToNamed('/profile');
@@ -163,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       Get.toNamed("/signup");
                     },
-                    child:  const Text("Don't have an account? SignUp",),
+                    child: const Text("Don't have an account? SignUp",),
                   ),
                 ],
               ),
